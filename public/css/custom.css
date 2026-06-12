@@ -1,0 +1,34 @@
+/* Poppins Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+/* Apply font to entire admin panel */
+body, 
+html,
+.fi-sidebar-nav,
+.fi-topbar,
+.fi-page,
+.fi-table,
+.fi-form,
+.fi-modal,
+input,
+textarea,
+select,
+button,
+.fi-btn,
+h1, h2, h3, h4, h5, h6,
+.fi-sidebar-item,
+.fi-ta-text,
+.filament-main,
+.filament-sidebar,
+.filament-topbar {
+    font-family: 'Poppins', 'Segoe UI', sans-serif !important;
+}
+
+/* Optional: Adjust font weights */
+h1, h2, h3, .fi-heading {
+    font-weight: 600 !important;
+}
+
+.fi-sidebar-item {
+    font-weight: 500 !important;
+}

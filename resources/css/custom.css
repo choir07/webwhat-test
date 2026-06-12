@@ -1,0 +1,25 @@
+/* Custom Font - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+:root {
+    --font-family: 'Poppins', sans-serif;
+}
+
+body, 
+html,
+.fi-sidebar-nav,
+.fi-topbar,
+.fi-page,
+.fi-table,
+.fi-form,
+.fi-modal,
+input,
+textarea,
+select,
+button,
+.fi-btn,
+h1, h2, h3, h4, h5, h6,
+.fi-sidebar-item,
+.fi-ta-text {
+    font-family: 'Poppins', sans-serif !important;
+}

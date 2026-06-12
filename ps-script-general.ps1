@@ -1,24 +1,18 @@
-# init-git.ps1
+# add-remote-and-push.ps1
 cd C:\Users\User\webwhat
 
-Write-Host "Initializing Git repository..." -ForegroundColor Yellow
+# Replace YOUR_USERNAME and YOUR_REPO_NAME with your actual GitHub info
+$githubUsername = "choir07"  # CHANGE THIS
+$repoName = "webwhat-test"          # CHANGE THIS
 
-# Initialize git
-git init
+Write-Host "Adding remote repository..." -ForegroundColor Yellow
 
-# Add all files (respecting .gitignore)
-git add .
+# Add remote origin
+git remote add origin https://github.com/$githubUsername/$repoName.git
 
-# Create initial commit
-git commit -m "Initial commit: Laravel blog with Filament admin panel
+# Push to GitHub
+git branch -M main
+git push -u origin main
 
-- Complete blog system with posts, categories, tags
-- Filament v5 admin panel
-- Frontend blog with Tailwind CSS
-- Comments system
-- Dark/Light mode toggle
-- Image upload and gallery support
-- SEO fields
-- Responsive design"
-
-Write-Host "Git initialized and committed!" -ForegroundColor Green
+Write-Host "Pushed to GitHub successfully!" -ForegroundColor Green
+Write-Host "https://github.com/$githubUsername/$repoName" -ForegroundColor Cyan

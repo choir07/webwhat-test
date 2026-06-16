@@ -43,8 +43,12 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->font('Poppins')
             ->login()
+            ->brandName('Admins Lair')  
+            ->brandLogo(asset('images/post-logo.webp'))  
+            ->brandLogoHeight('2rem')  
+            ->favicon(asset('images/favicon.ico'))  
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Red,
             ])
             ->pages([
                 Dashboard::class,

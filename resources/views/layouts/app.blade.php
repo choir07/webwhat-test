@@ -7,6 +7,9 @@
 
     @include('blog.partials.toast')
 
+     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="{{ asset( 'css/dark-mode.css') }}">
+
     <title>@yield('title', 'Powerful pOSTS')</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -73,6 +76,16 @@
             color: #4a4a6a;
             line-height: 1.6;
         }
+
+        .dark {
+            color-scheme: dark;
+        }
+
+        .dark body{
+            background-color: #111827;
+            color: #e5e7eb
+        }
+        
     </style>
 
     <link rel="stylesheet" href="{{ asset('css/global.css') }}">

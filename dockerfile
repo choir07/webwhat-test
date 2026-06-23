@@ -4,7 +4,7 @@ FROM php:8.2-fpm-alpine
 RUN apk add --no-cache \
     nginx nodejs npm postgresql-dev \
     libpng-dev libjpeg-turbo-dev freetype-dev \
-    libzip-dev zip unzip curl \
+    libzip-dev zip unzip curl oniguruma-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo pdo_pgsql gd zip bcmath mbstring
 

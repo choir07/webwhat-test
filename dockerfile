@@ -18,7 +18,7 @@ COPY . .
 RUN composer install --optimize-autoloader --no-dev
 
 # Install Node dependencies and build assets
-RUN npm install && npm run build
+RUN npm ci --no-audit && chmod +x node_modules/.bin/vite && npm run build
 
 # Cache Laravel config, routes, views
 RUN php artisan config:cache \

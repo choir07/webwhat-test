@@ -1,4 +1,5 @@
 #!/bin/sh
 php artisan migrate --force
-nginx -g 'daemon off;' &
-php-fpm
+php artisan storage:link
+php-fpm &
+nginx -g 'daemon off;'

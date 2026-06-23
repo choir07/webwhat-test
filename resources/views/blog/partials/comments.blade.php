@@ -6,7 +6,7 @@
         </h3>
         <button @click="showForm = !showForm" class="text-blue-600 hover:text-blue-800">
             <span x-show="!showForm"> Write a comment</span>
-            <span x-show="showForm">âˆ’ Hide form</span>
+            <span x-show="showForm"> Hide form</span>
         </button>
     </div>
     
@@ -37,7 +37,7 @@
         <div x-show="showForm" x-transition>
             <form action="/blog/{{ $post->slug }}/comment" method="POST" class="mt-6 bg-gray-50 dark:bg-gray-700/50 rounded-lg p-6">
                 @csrf
-                <h4 class="font-bold text-lg mb-4 text-gray-800 dark:text-gray-100">âœï¸ Leave a Comment</h4>
+                <h4 class="font-bold text-lg mb-4 text-gray-800 dark:text-gray-100"> Leave a Comment</h4>
                 
                 @if(session('success'))
                     <div class="bg-green-100 text-green-700 px-4 py-2 rounded-lg mb-4">

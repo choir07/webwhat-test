@@ -1,12 +1,13 @@
-FROM php:8.2-fpm-alpine
+FROM php:8.3-fpm-alpine
 
 # Install system dependencies and PHP extensions
 RUN apk add --no-cache \
     nginx nodejs npm postgresql-dev \
     libpng-dev libjpeg-turbo-dev freetype-dev \
     libzip-dev zip unzip curl oniguruma-dev \
+    icu-dev libexif-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo pdo_pgsql gd zip bcmath mbstring
+    && docker-php-ext-install pdo pdo_pgsql gd zip bcmath mbstring intl exif
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer

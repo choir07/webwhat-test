@@ -12,3 +12,18 @@ Route::get('/tag/{tag:slug}', [BlogController::class, 'tag'])->name('blog.tag');
 Route::post('/blog/{post:slug}/comment', [BlogController::class, 'storeComment'])->name('blog.comment');
 // routes/web.php
 Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
+Route::get('/setup-admin', function() {
+    \App\Models\User::create([
+        'name' => 'Admin',
+        'email' => 'ntahtaktau@gmail.com',
+        'password' => bcrypt('Admin1234!'),
+    ]);
+    return 'Admin created! Delete this route now.';
+Route::get('/clear-cache', function() {
+    Artisan::call('cache:clear');
+    Artisan::call('config:clear');
+    Artisan::call('route:clear');
+    Artisan::call('view:clear');
+    return 'Cache cleared!';
+});
+});

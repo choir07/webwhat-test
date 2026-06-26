@@ -12,8 +12,3 @@ Route::get('/tag/{tag:slug}', [BlogController::class, 'tag'])->name('blog.tag');
 Route::post('/blog/{post:slug}/comment', [BlogController::class, 'storeComment'])->name('blog.comment');
 // routes/web.php
 Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
-Route::get('/reset-pass', function() {
-    \App\Models\User::where('email', 'ntah12345@gmail.com')
-        ->update(['password' => 'Admin1234!']);
-    return 'Password reset to Admin1234!';
-});

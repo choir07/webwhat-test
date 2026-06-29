@@ -1,4 +1,4 @@
-﻿@extends('layouts.app')
+@extends('layouts.app')
 
 @section('title', 'The Powerful Posts')
 
@@ -40,7 +40,7 @@
                     @foreach($featuredPosts as $post)
                         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition">
                             @if($post->featured_image_url)
-                                <img src="{{ $post->featured_image_url }}" class="w-full h-48 object-cover">
+                                <img src="{{ $post->featured_image }}"  class="w-full h-48 object-cover">
                             @endif
                             <div class="p-4">
                                 <h3 class="font-bold text-lg mb-2">
@@ -62,7 +62,7 @@
                 @forelse($recentPosts ?? [] as $post)
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden hover:shadow-lg transition">
                         @if($post->featured_image_url)
-                            <img src="{{ $post->featured_image_url }}" class="w-full h-48 object-cover">
+                            <img src="{{ $post->featured_image }}" class="w-full h-48 object-cover">
                         @endif
                         <div class="p-4">
                             <div class="text-xs text-blue-600 mb-1">{{ $post->category->name ?? 'Uncategorized' }}</div>

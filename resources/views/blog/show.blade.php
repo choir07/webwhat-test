@@ -88,7 +88,7 @@
             @endphp
 
             @if($imageUrl)
-                <img src="{{ $imageUrl }}" alt="{{ $post->title }}" class="w-full h-96 object-cover">
+                <img src="{{ $post->featured_image }}" alt="{{ $post->title }}" class="w-full h-96 object-cover">
             @else
                 <div class="w-full h-96 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
                     <span class="text-gray-400">No image</span>
@@ -165,7 +165,7 @@
                                 }
                             @endphp
                             @if($relatedImage)
-                                <img src="{{ $relatedImage }}" class="w-full h-40 object-cover">
+                                <img src="{{  $post->featured_image }}" class="w-full h-40 object-cover">
                             @endif
                             <div class="p-4">
                                 <h3 class="font-semibold">

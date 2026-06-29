@@ -1,21 +1,64 @@
+# fix-blade-images.ps1
 Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "📊 Checking Database Import Status" -ForegroundColor Cyan
+Write-Host "🖼️  Fixing Blade Image Tags" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Yellow
 
-$env:PGPASSWORD="Pr45p03kwYiWkbOYbr4wPntqxREnV8Q1"
+$filesToFix = @(
+    "resources/views/blog/index.blade.php",
+    "resources/views/blog/show.blade.php",
+    "resources/views/blog/home.blade.php",
+    "resources/views/blog/partials/related-slider.blade.php",
+    "resources/views/welcome.blade.php"
+)
 
-Write-Host "`n[1/4] Checking tables..." -ForegroundColor Yellow
-& "C:\Program Files\PostgreSQL\18\bin\psql.exe" -h dpg-d8sub3v7f7vs73bi7t9g-a.singapore-postgres.render.com -U the_powerful_posts_user -d the_powerful_posts -c "\dt"
+$fixedCount = 0
 
-Write-Host "`n[2/4] Checking posts..." -ForegroundColor Yellow
-& "C:\Program Files\PostgreSQL\18\bin\psql.exe" -h dpg-d8sub3v7f7vs73bi7t9g-a.singapore-postgres.render.com -U the_powerful_posts_user -d the_powerful_posts -c "SELECT COUNT(*) FROM posts;"
+foreach ($filePath in $filesToFix) {
+    if (Test-Path $filePath) {
+        Write-Host ""
+        Write-Host "Checking: $filePath" -ForegroundColor Yellow
+        
+        $content = Get-Content $filePath -Raw
+        
+        # Check if it has the problematic pattern
+        if ($content -match "asset\('storage/'.*?\$post->featured_image" -or $content -match 'asset\("storage/".*?\$post->featured_image') {
+            Write-Host "  Found problematic image tag" -ForegroundColor Red
+            
+            # Create backup
+            Copy-Item $filePath "$filePath.backup"
+            Write-Host "  Backup created" -ForegroundColor Gray
+            
+            # Replace all variants
+            $content = $content -replace "asset\('storage/' \. \$post->featured_image\)", '$post->featured_image'
+            $content = $content -replace 'asset\("storage/" \. \$post->featured_image\)', '$post->featured_image'
+            $content = $content -replace "asset\('storage/'\.\$post->featured_image\)", '$post->featured_image'
+            $content = $content -replace 'asset\("storage/"\.\$post->featured_image\)', '$post->featured_image'
+            
+            # Also fix any other common patterns
+            $content = $content -replace "asset\('storage/' \. \$post\['featured_image'\]\)", '$post->featured_image'
+            $content = $content -replace 'asset\("storage/" \. \$post\[''featured_image''\]\)', '$post->featured_image'
+            
+            # Save the file
+            $content | Out-File $filePath -Encoding UTF8
+            Write-Host "  Fixed!" -ForegroundColor Green
+            $fixedCount++
+        } else {
+            Write-Host "  No issues found" -ForegroundColor Green
+        }
+    } else {
+        Write-Host "File not found: $filePath" -ForegroundColor Yellow
+    }
+}
 
-Write-Host "`n[3/4] Checking users..." -ForegroundColor Yellow
-& "C:\Program Files\PostgreSQL\18\bin\psql.exe" -h dpg-d8sub3v7f7vs73bi7t9g-a.singapore-postgres.render.com -U the_powerful_posts_user -d the_powerful_posts -c "SELECT COUNT(*) FROM users;"
-
-Write-Host "`n[4/4] Checking recent posts..." -ForegroundColor Yellow
-& "C:\Program Files\PostgreSQL\18\bin\psql.exe" -h dpg-d8sub3v7f7vs73bi7t9g-a.singapore-postgres.render.com -U the_powerful_posts_user -d the_powerful_posts -c "SELECT id, title, status FROM posts ORDER BY id DESC LIMIT 5;"
-
-Write-Host "`n========================================" -ForegroundColor Green
-Write-Host "✅ Status check complete!" -ForegroundColor Green
+Write-Host ""
+Write-Host "========================================" -ForegroundColor Green
+Write-Host "Fixed $fixedCount file(s)!" -ForegroundColor Green
 Write-Host "========================================" -ForegroundColor Cyan
+
+Write-Host ""
+Write-Host "Next steps:" -ForegroundColor Yellow
+Write-Host "   1. Clear your browser cache" -ForegroundColor White
+Write-Host "   2. Refresh your website" -ForegroundColor White
+Write-Host "   3. If images still don't appear, we'll check manually" -ForegroundColor White
+
+Read-Host "Press Enter to exit"

@@ -1,4 +1,4 @@
-﻿<!-- Comments Section -->
+<!-- Comments Section -->
 <div class="mt-12 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6" x-data="{ showForm: true }">
     <div class="flex justify-between items-center mb-6">
         <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-100">

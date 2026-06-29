@@ -23,6 +23,11 @@ RUN composer install --optimize-autoloader --no-dev
 # Install Node dependencies and build assets
 RUN npm ci --no-audit && chmod +x node_modules/.bin/vite && npm run build
 
+# Cache Laravel config, routes, views
+RUN php artisan config:cache \
+    && php artisan route:cache \
+    && php artisan view:cache
+
 # Copy Docker config files
 COPY docker/nginx.conf /etc/nginx/nginx.conf
 COPY docker/start.sh /start.sh

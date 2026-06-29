@@ -16,12 +16,12 @@ class Post extends Model
         'slug',
         'excerpt',
         'content',
-        'description',  // Add this if you have description field
-        'category_id',
+        'description',  
         'author_id',
-        'featured_image_id',  // Keep this
-        'featured_image',      // For direct uploads
+        'featured_image_id',  
+        'featured_image',      
         'gallery',
+        'cloudinary_public_id',
         'status',
         'published_at',
         'is_featured',
@@ -94,6 +94,23 @@ class Post extends Model
         }
 
         return $images;
+    }
+
+     public function getImageUrlAttribute(): string
+    {
+        if ($this->cloudinary_public_id) {
+            return 'https://res.cloudinary.com/dgk1pwiet/image/upload/' . $this->cloudinary_public_id;
+        }
+        return $this->featured_image ?? 'https://picsum.photos/seed/' . $this->id . '/800/400';
+    }
+
+    // Helper to get transformed image URL
+    public function getOptimizedImageUrlAttribute(): string
+    {
+        if ($this->cloudinary_public_id) {
+            return 'https://res.cloudinary.com/dgk1pwiet/image/upload/f_auto,q_auto/' . $this->cloudinary_public_id;
+        }
+        return $this->featured_image ?? 'https://picsum.photos/seed/' . $this->id . '/800/400';
     }
 
     public function category(): BelongsTo

@@ -12,3 +12,4 @@ Route::get('/tag/{tag:slug}', [BlogController::class, 'tag'])->name('blog.tag');
 Route::post('/blog/{post:slug}/comment', [BlogController::class, 'storeComment'])->name('blog.comment');
 // routes/web.php
 Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
+Route::get('/cloudinary-test', [App\Http\Controllers\CloudinaryController::class, 'uploadImage']);

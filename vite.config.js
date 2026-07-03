@@ -4,13 +4,11 @@ import laravel from 'laravel-vite-plugin';
 export default defineConfig({
     plugins: [
         laravel({
-            input: [
-                'resources/css/app.css',
-                'resources/css/filament/admin/theme.css',
-                'resources/js/app.js',
-                'public/css/dark-mode.css',
-            ],
+            input: ['resources/css/app.css', 'resources/js/app.js'],
             refresh: true,
         }),
     ],
-})
+    css: {
+        transformer: 'postcss',  
+    },
+});

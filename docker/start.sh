@@ -1,15 +1,10 @@
 #!/bin/bash
 set -e
 
-echo "==> Setting permissions..."
-chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+echo '==> Running migrations...'
+php artisan migrate --force
 
-echo "==> Clearing old caches..."
-php artisan optimize:clear
+echo '==> Creating storage link...'
+php artisan storage:link || true
 
-echo "==> Starting PHP-FPM..."
-php-fpm -D
-
-echo "==> Starting Nginx..."
-nginx -g 'daemon off;'
+exec php-fpm

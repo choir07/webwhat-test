@@ -10,6 +10,10 @@ return new class extends Migration {
      */
     public function up(): void
     {
+        if (Schema::hasTable('products')) {
+            return;
+        }
+
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
@@ -23,7 +27,7 @@ return new class extends Migration {
             $table->string('image')->nullable();
             $table->string('cloudinary_public_id')->nullable();
             $table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
-            $table->boolean('status')->default(true);
+            $table->string('status')->default('published');
             $table->boolean('is_featured')->default(false);
             $table->timestamp('published_at')->nullable();
         });

@@ -30,12 +30,13 @@ RUN php artisan config:cache \
 
 # Copy Docker config files
 COPY docker/nginx.conf /etc/nginx/nginx.conf
-COPY docker/start.sh /start.sh
-RUN chmod +x /start.sh
+COPY docker/start.sh /usr/local/bin/start.sh
+RUN chmod +x /usr/local/bin/start.sh
 
 # Set correct permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 EXPOSE 10000
 
-CMD ["/start.sh"]
+ENTRYPOINT []
+CMD ["/bin/sh", "/usr/local/bin/start.sh"]

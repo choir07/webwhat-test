@@ -1,11 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
-echo "==> Clearing config cache..."
-php artisan config:clear
-php artisan cache:clear
+echo "==> Installing dependencies..."
+composer install --no-dev --optimize-autoloader
 
-echo "==> Caching fresh config..."
+echo "==> Caching config, routes, views..."
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
@@ -13,14 +12,10 @@ php artisan view:cache
 echo "==> Running migrations..."
 php artisan migrate --force
 
-echo "==> Linking storage..."
+echo "==> Creating storage symlink..."
 php artisan storage:link || true
 
-echo "==> Upgrading Filament..."
-php artisan filament:upgrade || true
+echo "==> Clearing old caches..."
+php artisan cache:clear
 
-echo "==> Starting PHP-FPM..."
-php-fpm -D
-
-echo "==> Starting Nginx..."
-nginx -g 'daemon off;'
+echo "==> Done. Starting server..."

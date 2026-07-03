@@ -20,20 +20,51 @@ class Product extends Model
         "sku",
         "status",
         "category_id",
-        "image_id",  // Keep for backward compatibility
+        "image_id",
+        'slug',
+        'sale_price',
+        'is_featured',
+        'published_at',
     ];
 
     protected $casts = [
         "status" => ProductStatus::class,
         "price" => "decimal:2",
-        "stock" => "integer"
+        "stock" => "integer",
+        'sale_price' => 'decimal:2',
+        'is_featured' => 'boolean',
+        'published_at' => 'datetime',
     ];
 
     protected $appends = ['primary_image_url', 'all_images'];
 
+    protected static function boot()
+{
+    parent::boot();
+
+    static::creating(function ($product) {
+        if (empty($product->slug)) {
+            $product->slug = \Illuminate\Support\Str::slug($product->name);
+        }
+    });
+
+    static::updating(function ($product) {
+        if (empty($product->slug)) {
+            $product->slug = \Illuminate\Support\Str::slug($product->name);
+        }
+    });
+}
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class, 'order_items')
+                    ->withPivot('quantity', 'price')
+                    ->withTimestamps();
     }
 
     // Keep old single image relationship for backward compatibility
@@ -61,15 +92,23 @@ class Product extends Model
         if ($primary && $primary->file) {
             return $primary->file->url;
         }
-        
+
         // Fallback to first image if no primary set
         $firstImage = $this->productImages()->first();
         if ($firstImage && $firstImage->file) {
             return $firstImage->file->url;
         }
-        
+
         // Fallback to old single image
         return $this->image?->url;
+    }
+
+    public function getImageUrlAttribute()
+    {
+        if ($this->cloudinary_public_id) {
+            return 'https://res.cloudinary.com/dgk1pwiet/image/upload/f_auto,q_auto/' . $this->cloudinary_public_id;
+        }
+        return $this->image ?? null;
     }
 
     // Get all images as array
@@ -87,7 +126,7 @@ class Product extends Model
                 ];
             }
         }
-        
+
         // If no gallery images, check old single image
         if (empty($images) && $this->image) {
             $images[] = [
@@ -98,7 +137,7 @@ class Product extends Model
                 'sort_order' => 0,
             ];
         }
-        
+
         return $images;
     }
 

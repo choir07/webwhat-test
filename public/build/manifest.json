@@ -1,6 +1,15 @@
 {
+  "public/css/dark-mode.css": {
+    "file": "assets/dark-mode-Br-86NEU.css",
+    "name": "dark-mode",
+    "names": [
+      "dark-mode.css"
+    ],
+    "src": "public/css/dark-mode.css",
+    "isEntry": true
+  },
   "resources/css/app.css": {
-    "file": "assets/app-BLykTlqq.css",
+    "file": "assets/app-COwMXSf8.css",
     "name": "theme",
     "names": [
       "app.css",
@@ -10,7 +19,7 @@
     "isEntry": true
   },
   "resources/css/filament/admin/theme.css": {
-    "file": "assets/app-BLykTlqq.css",
+    "file": "assets/app-COwMXSf8.css",
     "name": "theme",
     "names": [
       "app.css",

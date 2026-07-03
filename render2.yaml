@@ -1,0 +1,60 @@
+services:
+  - type: web
+    name: webwhat-shop
+    runtime: php
+    buildCommand: |
+      composer install --no-dev --optimize-autoloader
+      npm install
+      npm run build
+      php artisan migrate --force
+      php artisan config:cache
+      php artisan route:cache
+      php artisan view:cache
+    startCommand: php artisan serve --host=0.0.0.0 --port=10000
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        generateValue: true
+      - key: APP_URL
+        value: https://webwhat-shop.onrender.com
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        fromDatabase:
+          name: webwhat-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: webwhat-db
+          property: port
+      - key: DB_DATABASE
+        fromDatabase:
+          name: webwhat-db
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: webwhat-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: webwhat-db
+          property: password
+      - key: CLOUDINARY_CLOUD_NAME
+        value: dgk1pwiet
+      - key: CLOUDINARY_API_KEY
+        value: 628453573112432
+      - key: CLOUDINARY_API_SECRET
+        value: uYQQzPYIwWlFlhsA9dPbWvCltkc
+      - key: SESSION_DRIVER
+        value: database
+      - key: SESSION_DOMAIN
+        value: .onrender.com
+
+  - type: pgsql
+    name: webwhat-db
+    plan: free
+    databaseName: webwhat_shop
+    user: webwhat_user

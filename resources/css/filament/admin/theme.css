@@ -12,3 +12,60 @@
 body, html, * {
     font-family: 'Poppins', sans-serif !important;
 }
+
+/* Shop styles */
+.shop-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.product-card {
+    background: white;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #ef4444;
+    color: white;
+    font-size: 0.7rem;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Navigation */
+.nav-link {
+    @apply text-gray-600 hover:text-gray-900 transition-colors;
+}
+
+.btn-primary {
+    @apply bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition;
+}
+
+.btn-success {
+    @apply bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition;
+}
+
+.btn-danger {
+    @apply bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition;
+}

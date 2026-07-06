@@ -25,6 +25,7 @@ class Product extends Model
         'sale_price',
         'is_featured',
         'published_at',
+        "cloudinary_public_id"
     ];
 
     protected $casts = [
@@ -39,21 +40,21 @@ class Product extends Model
     protected $appends = ['primary_image_url', 'all_images'];
 
     protected static function boot()
-{
-    parent::boot();
+    {
+        parent::boot();
 
-    static::creating(function ($product) {
-        if (empty($product->slug)) {
-            $product->slug = \Illuminate\Support\Str::slug($product->name);
-        }
-    });
+        static::creating(function ($product) {
+            if (empty($product->slug)) {
+                $product->slug = \Illuminate\Support\Str::slug($product->name);
+            }
+        });
 
-    static::updating(function ($product) {
-        if (empty($product->slug)) {
-            $product->slug = \Illuminate\Support\Str::slug($product->name);
-        }
-    });
-}
+        static::updating(function ($product) {
+            if (empty($product->slug)) {
+                $product->slug = \Illuminate\Support\Str::slug($product->name);
+            }
+        });
+    }
 
     public function category(): BelongsTo
     {
@@ -63,8 +64,8 @@ class Product extends Model
     public function orders()
     {
         return $this->belongsToMany(Order::class, 'order_items')
-                    ->withPivot('quantity', 'price')
-                    ->withTimestamps();
+            ->withPivot('quantity', 'price')
+            ->withTimestamps();
     }
 
     // Keep old single image relationship for backward compatibility
@@ -108,7 +109,15 @@ class Product extends Model
         if ($this->cloudinary_public_id) {
             return 'https://res.cloudinary.com/dgk1pwiet/image/upload/f_auto,q_auto/' . $this->cloudinary_public_id;
         }
-        return $this->image ?? null;
+        return $this->attributes['image_url'] ?? 'https://picsum.photos/seed/' . $this->id . '/800/400';
+    }
+
+    public function getOptimizedImageUrlAttribute(): string
+    {
+        if ($this->cloudinary_public_id) {
+            return 'https://res.cloudinary.com/dgk1pwiet/image/upload/f_auto,q_auto/' . $this->cloudinary_public_id;
+        }
+        return $this->attributes['image_url'] ?? 'https://picsum.photos/seed/' . $this->id . '/800/400';
     }
 
     // Get all images as array

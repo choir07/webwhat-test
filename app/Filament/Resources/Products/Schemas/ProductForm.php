@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Products\Schemas;
 
 use App\Enums\ProductStatus;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
@@ -37,8 +38,14 @@ class ProductForm
                 Select::make('category_id')
                     ->relationship('category', 'name')
                     ->required(),
-                Select::make('image_id')
-                    ->relationship('image', 'name'),
+                FileUpload::make('cloudinary_public_id')
+                    ->label('Product Image')
+                    ->disk('cloudinary')
+                    ->directory('products')
+                    ->image()
+                    ->automaticallyResizeImagesMode('cover')
+                    ->imageAspectRatio('1:1')
+                    ->helperText('Upload a product image (stored on Cloudinary)'),
             ]);
     }
 }

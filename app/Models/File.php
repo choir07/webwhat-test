@@ -33,6 +33,12 @@ class File extends Model
 
     public function getUrlAttribute(): string
     {
+
+        if (app()->environment('production')) {
+            // Use Cloudinary URL stored in database
+            return $this->cloudinary_url ?? asset('images/placeholder.jpg');
+        }
+
         $filename = basename($this->path);
         $encodedFilename = rawurlencode($filename);
         return asset('storage/files/' . $encodedFilename);

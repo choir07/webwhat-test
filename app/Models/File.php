@@ -21,6 +21,8 @@ class File extends Model
         "size",
         "collection",
         "description",
+        "cloudinary_url",      
+        "cloudinary_public_id",
         "user_id",
     ];
 

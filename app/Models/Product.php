@@ -91,22 +91,18 @@ class Product extends Model
     {
         $image = $this->productImages
             ->where('is_primary', true)
-            ->sortBy('sort_order')
             ->first();
 
         // Fall back to first image by sort_order
         $image = $image ?? $this->productImages
-            ->sortBy('sort_order')
             ->first();
 
-        return $image?->file?->url;
+        return $image?->file?->url ?? 'https://placehold.co/400x300?text=No+Image';
     }
 
-    public function getImageUrlAttribute()
+    public function getImageUrlAttribute(): ?string
     {
-        if ($this->cloudinary_public_id) {
-            return 'https://res.cloudinary.com/dgk1pwiet/image/upload/f_auto,q_auto/' . $this->cloudinary_public_id;
-        }
+        
         return $this->primary_image_url;
     }
 

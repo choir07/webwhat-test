@@ -89,19 +89,17 @@ class Product extends Model
     // Accessor for primary image URL
     public function getPrimaryImageUrlAttribute(): ?string
     {
-        $primary = $this->primaryImage()->first();
-        if ($primary && $primary->file) {
-            return $primary->file->url;
-        }
+        $image = $this->productImages
+            ->where('is_primary', true)
+            ->sortBy('sort_order')
+            ->first();
 
-        // Fallback to first image if no primary set
-        $firstImage = $this->productImages()->first();
-        if ($firstImage && $firstImage->file) {
-            return $firstImage->file->url;
-        }
+        // Fall back to first image by sort_order
+        $image = $image ?? $this->productImages
+            ->sortBy('sort_order')
+            ->first();
 
-        // Fallback to old single image
-        return $this->image?->url;
+        return $image?->file?->url;
     }
 
     public function getImageUrlAttribute()
@@ -109,7 +107,7 @@ class Product extends Model
         if ($this->cloudinary_public_id) {
             return 'https://res.cloudinary.com/dgk1pwiet/image/upload/f_auto,q_auto/' . $this->cloudinary_public_id;
         }
-        return $this->attributes['image_url'] ?? 'https://picsum.photos/seed/' . $this->id . '/800/400';
+        return $this->primary_image_url;
     }
 
     public function getOptimizedImageUrlAttribute(): string

@@ -21,7 +21,7 @@ class FrontendProductController extends Controller
             $query->where('name', 'like', '%' . $request->search . '%');
         }
 
-        $products   = $query->paginate(12);
+        $products = $query->paginate(12);
         $categories = Category::all();
 
         return view('shop.index', compact('products', 'categories'));
@@ -40,6 +40,10 @@ class FrontendProductController extends Controller
             ->where('status', 'published')  // ← fix
             ->limit(4)
             ->get();
+
+        $query = Product::with(['productImages.file', 'category'])
+            ->where('status', 'published')
+            ->orderBy('name', 'asc');  
 
         return view('shop.show', compact('product', 'related'));
     }

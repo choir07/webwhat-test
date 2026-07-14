@@ -100,6 +100,7 @@
                 <div class="space-x-4">
                     <a href="/blog" class="text-gray-600 hover:text-gray-800">All Posts</a>
                     <a href="/admin" class="text-gray-600 hover:text-gray-800">Admin</a>
+                    <a href="/shop" class="text-gray-600 hover:text-gray-800">Shop</a>
                     <button onclick="toggleTheme()" class="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white ml-4">
                         <span class="dark:hidden">🌙 Dark</span>
                         <span class="hidden dark:inline">☀️ Light/🌙 Dark</span>

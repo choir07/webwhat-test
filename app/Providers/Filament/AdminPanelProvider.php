@@ -43,10 +43,11 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->font('Poppins')
             ->login()
-            ->brandName('Admins Lair')  
-            ->brandLogo(asset('images/post-logo.webp'))  
-            ->brandLogoHeight('2rem')  
-            ->favicon(asset('images/favicon.ico'))  
+            ->authGuard('web')
+            ->brandName('Admins Lair')
+            ->brandLogo(asset('images/post-logo.webp'))
+            ->brandLogoHeight('2rem')
+            ->favicon(asset('images/favicon.ico'))
             ->colors([
                 'primary' => Color::Red,
             ])
@@ -76,7 +77,7 @@ class AdminPanelProvider extends PanelProvider
                 RecentPosts::class,
                 RecentPosts::class,
                 RecentPostImages::class,
-                
+
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -91,6 +92,8 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+                'web',
+                'auth:web',
             ]);
     }
 }

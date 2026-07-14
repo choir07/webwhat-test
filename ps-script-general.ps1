@@ -1,58 +1,94 @@
-# Save as upload_to_cloudinary.ps1 in project root
-$cloudName = "dgk1pwiet"
-$apiKey = "628453573112432"
-$apiSecret = "uYQQzPYIwWlFlhsA9dPbWvCltkc"
+# fix-403-manual.ps1
+Write-Host "========================================" -ForegroundColor Cyan
+Write-Host "Fixing 403 Forbidden - Manual Fix" -ForegroundColor Cyan
+Write-Host "========================================" -ForegroundColor Yellow
 
-# Get all files from database via artisan
-$files = php artisan tinker --execute="echo json_encode(\App\Models\File::whereNull('cloudinary_url')->get(['id','path','name'])->toArray());"
+# Create Middleware folder
+Write-Host ""
+Write-Host "[1/5] Creating Middleware folder..."
+New-Item -ItemType Directory -Path "app/Http/Middleware" -Force | Out-Null
+Write-Host "Done" -ForegroundColor Green
 
-$fileList = $files | ConvertFrom-Json
+# Create TrustProxies.php
+Write-Host ""
+Write-Host "[2/5] Creating TrustProxies.php..."
+@'
+<?php
 
-Write-Host "Found $($fileList.Count) files to upload..."
+namespace App\Http\Middleware;
 
-foreach ($file in $fileList) {
-    $localPath = "storage\app\public\$($file.path)"
-    
-    if (-not (Test-Path $localPath)) {
-        Write-Host "SKIP - File not found: $localPath" -ForegroundColor Yellow
-        continue
+use Illuminate\Http\Middleware\TrustProxies as Middleware;
+use Illuminate\Http\Request;
+
+class TrustProxies extends Middleware
+{
+    protected $proxies = '*';
+
+    protected $headers =
+        Request::HEADER_X_FORWARDED_FOR |
+        Request::HEADER_X_FORWARDED_HOST |
+        Request::HEADER_X_FORWARDED_PORT |
+        Request::HEADER_X_FORWARDED_PROTO |
+        Request::HEADER_X_FORWARDED_AWS_ELB;
+}
+'@ | Out-File -FilePath "app/Http/Middleware/TrustProxies.php" -Encoding utf8
+Write-Host "Done" -ForegroundColor Green
+
+# Update AppServiceProvider
+Write-Host ""
+Write-Host "[3/5] Updating AppServiceProvider.php..."
+@'
+<?php
+
+namespace App\Providers;
+
+use Illuminate\Support\ServiceProvider;
+
+class AppServiceProvider extends ServiceProvider
+{
+    public function register(): void
+    {
+        //
     }
 
-    # Upload to Cloudinary using API
-    $timestamp = [int][double]::Parse((Get-Date -UFormat %s))
-    $publicId = "powerful-posts/$($file.name -replace '[^a-zA-Z0-9-_]', '-')"
-    
-    $sigString = "public_id=$publicId&timestamp=$timestamp$apiSecret"
-    $sha1 = [System.Security.Cryptography.SHA1]::Create()
-    $sigBytes = $sha1.ComputeHash([System.Text.Encoding]::UTF8.GetBytes($sigString))
-    $signature = [BitConverter]::ToString($sigBytes).Replace("-","").ToLower()
-
-    $form = @{
-        file      = Get-Item $localPath
-        api_key   = $apiKey
-        timestamp = $timestamp
-        public_id = $publicId
-        signature = $signature
-    }
-
-    try {
-        $response = Invoke-RestMethod `
-            -Uri "https://api.cloudinary.com/v1_1/$cloudName/image/upload" `
-            -Method Post `
-            -Form $form
-
-        $cloudUrl = $response.secure_url
-        $cloudPublicId = $response.public_id
-
-        # Update database
-        php artisan tinker --execute="\App\Models\File::where('id', $($file.id))->update(['cloudinary_url' => '$cloudUrl', 'cloudinary_public_id' => '$cloudPublicId']);"
-
-        Write-Host "OK - $($file.name) => $cloudUrl" -ForegroundColor Green
-
-    } catch {
-        Write-Host "FAIL - $($file.name): $_" -ForegroundColor Red
+    public function boot(): void
+    {
+        if (env('FORCE_HTTPS', false)) {
+            \URL::forceScheme('https');
+        }
     }
 }
+'@ | Out-File -FilePath "app/Providers/AppServiceProvider.php" -Encoding utf8
+Write-Host "Done" -ForegroundColor Green
 
-Write-Host "`nDone! Verifying..." -ForegroundColor Cyan
-php artisan tinker --execute="echo 'Uploaded: ' . \App\Models\File::whereNotNull('cloudinary_url')->count() . '/' . \App\Models\File::count();"
+# Clear sessions
+Write-Host ""
+Write-Host "[4/5] Clearing sessions..."
+$env:PGPASSWORD="Pr45p03kwYiWkbOYbr4wPntqxREnV8Q1"
+$psql = "C:\Program Files\PostgreSQL\18\bin\psql.exe"
+& $psql -h "dpg-d8sub3v7f7vs73bi7t9g-a.singapore-postgres.render.com" -U "the_powerful_posts_user" -d "the_powerful_posts" -c "DELETE FROM sessions;" 2>$null
+Write-Host "Done" -ForegroundColor Green
+
+# Commit and push
+Write-Host ""
+Write-Host "[5/5] Committing and pushing..."
+git add app/Http/Middleware/TrustProxies.php app/Providers/AppServiceProvider.php
+git commit -m "Fix: Add TrustProxies and force HTTPS"
+git push origin main
+Write-Host "Done" -ForegroundColor Green
+
+Write-Host ""
+Write-Host "========================================" -ForegroundColor Green
+Write-Host "Fix Complete!" -ForegroundColor Green
+Write-Host "========================================" -ForegroundColor Cyan
+Write-Host ""
+Write-Host "Next steps:" -ForegroundColor Yellow
+Write-Host "   1. In Render dashboard, add environment variables:" -ForegroundColor White
+Write-Host "      SESSION_SECURE_COOKIE=true" -ForegroundColor Cyan
+Write-Host "      SESSION_DOMAIN=.onrender.com" -ForegroundColor Cyan
+Write-Host "      FORCE_HTTPS=true" -ForegroundColor Cyan
+Write-Host "   2. Manual Deploy" -ForegroundColor White
+Write-Host "   3. Clear browser cookies" -ForegroundColor White
+Write-Host "   4. Login with admin@example.com / password123" -ForegroundColor White
+
+Read-Host "Press Enter to exit"

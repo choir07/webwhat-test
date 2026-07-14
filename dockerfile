@@ -13,12 +13,18 @@ RUN apk add --no-cache \
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
+ARG APP_KEY
+ENV APP_KEY=${APP_KEY}
 
 # Copy project files
 COPY . .
 
 # Install PHP dependencies
 RUN composer install --optimize-autoloader --no-dev
+
+# Publish Filament and Livewire assets into public/
+RUN php artisan filament:assets || true
+RUN php artisan vendor:publish --tag=livewire:assets --force || true
 
 # Install Node dependencies and build assets
 RUN npm ci --no-audit && chmod +x node_modules/.bin/vite && npm run build

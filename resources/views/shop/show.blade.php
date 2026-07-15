@@ -1,4 +1,4 @@
-@extends('layouts.shop')  {{-- Changed from layouts.app --}}
+﻿@extends('layouts.shop')  {{-- Changed from layouts.app --}}
 
 @section('title', $product->name)
 
@@ -6,7 +6,7 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <div class="mb-4">
         <a href="{{ route('shop.index') }}" class="text-blue-500 hover:text-blue-700">
-            ← Back to Products
+            â† Back to Products
         </a>
     </div>
 
@@ -75,7 +75,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
                 @foreach($related as $relatedProduct)
                     <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
-                        <a href="{{ route('shop.show', $relatedProduct->slug) }}">
+                        @if($relatedProduct->slug)<a href="{{ route('shop.show', $relatedProduct->slug) }}">
                             <img src="{{ $relatedProduct->image_url }}" alt="{{ $relatedProduct->name }}" 
                                  class="w-full h-40 object-cover">
                         </a>

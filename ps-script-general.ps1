@@ -1,94 +1,47 @@
-# fix-403-manual.ps1
+# fix-db-sync.ps1
 Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "Fixing 403 Forbidden - Manual Fix" -ForegroundColor Cyan
+Write-Host "🔄 Fixing Database Sync" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Yellow
 
-# Create Middleware folder
+# Step 1: Export production as SQL
 Write-Host ""
-Write-Host "[1/5] Creating Middleware folder..."
-New-Item -ItemType Directory -Path "app/Http/Middleware" -Force | Out-Null
-Write-Host "Done" -ForegroundColor Green
-
-# Create TrustProxies.php
-Write-Host ""
-Write-Host "[2/5] Creating TrustProxies.php..."
-@'
-<?php
-
-namespace App\Http\Middleware;
-
-use Illuminate\Http\Middleware\TrustProxies as Middleware;
-use Illuminate\Http\Request;
-
-class TrustProxies extends Middleware
-{
-    protected $proxies = '*';
-
-    protected $headers =
-        Request::HEADER_X_FORWARDED_FOR |
-        Request::HEADER_X_FORWARDED_HOST |
-        Request::HEADER_X_FORWARDED_PORT |
-        Request::HEADER_X_FORWARDED_PROTO |
-        Request::HEADER_X_FORWARDED_AWS_ELB;
-}
-'@ | Out-File -FilePath "app/Http/Middleware/TrustProxies.php" -Encoding utf8
-Write-Host "Done" -ForegroundColor Green
-
-# Update AppServiceProvider
-Write-Host ""
-Write-Host "[3/5] Updating AppServiceProvider.php..."
-@'
-<?php
-
-namespace App\Providers;
-
-use Illuminate\Support\ServiceProvider;
-
-class AppServiceProvider extends ServiceProvider
-{
-    public function register(): void
-    {
-        //
-    }
-
-    public function boot(): void
-    {
-        if (env('FORCE_HTTPS', false)) {
-            \URL::forceScheme('https');
-        }
-    }
-}
-'@ | Out-File -FilePath "app/Providers/AppServiceProvider.php" -Encoding utf8
-Write-Host "Done" -ForegroundColor Green
-
-# Clear sessions
-Write-Host ""
-Write-Host "[4/5] Clearing sessions..."
+Write-Host "[1/4] Exporting production database as SQL..." -ForegroundColor Yellow
 $env:PGPASSWORD="Pr45p03kwYiWkbOYbr4wPntqxREnV8Q1"
-$psql = "C:\Program Files\PostgreSQL\18\bin\psql.exe"
-& $psql -h "dpg-d8sub3v7f7vs73bi7t9g-a.singapore-postgres.render.com" -U "the_powerful_posts_user" -d "the_powerful_posts" -c "DELETE FROM sessions;" 2>$null
-Write-Host "Done" -ForegroundColor Green
+$psql = "C:\Program Files\PostgreSQL\18\bin\pg_dump.exe"
+$host = "dpg-d8sub3v7f7vs73bi7t9g-a.singapore-postgres.render.com"
+$user = "the_powerful_posts_user"
+$db = "the_powerful_posts"
 
-# Commit and push
+& $psql -h $host -U $user -d $db --no-owner --no-privileges > production_dump.sql
+Write-Host "✅ Exported to production_dump.sql" -ForegroundColor Green
+
+# Step 2: Get local password
 Write-Host ""
-Write-Host "[5/5] Committing and pushing..."
-git add app/Http/Middleware/TrustProxies.php app/Providers/AppServiceProvider.php
-git commit -m "Fix: Add TrustProxies and force HTTPS"
-git push origin main
-Write-Host "Done" -ForegroundColor Green
+Write-Host "[2/4] Enter your local PostgreSQL password:" -ForegroundColor Yellow
+$localPass = Read-Host -AsSecureString
+$localPass = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($localPass))
+
+# Step 3: Import to local
+Write-Host ""
+Write-Host "[3/4] Importing to local database..." -ForegroundColor Yellow
+$env:PGPASSWORD = $localPass
+& "C:\Program Files\PostgreSQL\18\bin\psql.exe" -h localhost -U postgres -d f5_crud -f production_dump.sql 2>$null
+
+if ($LASTEXITCODE -eq 0) {
+    Write-Host "✅ Import successful" -ForegroundColor Green
+} else {
+    Write-Host "⚠️ Import had some errors but may have completed partially" -ForegroundColor Yellow
+}
+
+# Step 4: Run migrations
+Write-Host ""
+Write-Host "[4/4] Running migrations locally..." -ForegroundColor Yellow
+php artisan migrate --force
+Write-Host "✅ Migrations run" -ForegroundColor Green
 
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Green
-Write-Host "Fix Complete!" -ForegroundColor Green
+Write-Host "✅ Sync complete!" -ForegroundColor Green
 Write-Host "========================================" -ForegroundColor Cyan
-Write-Host ""
-Write-Host "Next steps:" -ForegroundColor Yellow
-Write-Host "   1. In Render dashboard, add environment variables:" -ForegroundColor White
-Write-Host "      SESSION_SECURE_COOKIE=true" -ForegroundColor Cyan
-Write-Host "      SESSION_DOMAIN=.onrender.com" -ForegroundColor Cyan
-Write-Host "      FORCE_HTTPS=true" -ForegroundColor Cyan
-Write-Host "   2. Manual Deploy" -ForegroundColor White
-Write-Host "   3. Clear browser cookies" -ForegroundColor White
-Write-Host "   4. Login with admin@example.com / password123" -ForegroundColor White
 
 Read-Host "Press Enter to exit"

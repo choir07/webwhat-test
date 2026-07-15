@@ -19,6 +19,7 @@ class CartService
                 'name'      => $product->name,
                 'price'     => $product->price,
                 'quantity'  => $quantity,
+                'image'     => $product->image_url,
                 'image_url' => $product->image_url,
                 'slug'      => $product->slug,
             ];

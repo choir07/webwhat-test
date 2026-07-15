@@ -124,12 +124,8 @@ class PostResource extends Resource
                     ->dateTime('M d, Y')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                FileUpload::make('featured_image_id') 
-                    ->disk('cloudinary')   
-                    ->directory('posts')  
-                    ->image()
+                
             ])
-            ->defaultSort('published_at', 'desc')
             ->defaultSort(function ($query) {
                 $query->orderByRaw('COALESCE(published_at, created_at) DESC');
             })

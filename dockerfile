@@ -16,13 +16,6 @@ COPY . .
 
 RUN composer install --optimize-autoloader --no-dev
 
-# ✅ Set a dummy APP_KEY so artisan commands work during build
-ENV APP_KEY=base64:iGOjMOMHbQcXXolaxDx42uh5rHv5G0eYfw1okrX/7u4=
-
-# ✅ Publish Filament and Livewire assets during BUILD
-RUN php artisan filament:assets || true
-RUN php artisan vendor:publish --tag=livewire:assets --force || true
-
 RUN npm ci --no-audit && chmod +x node_modules/.bin/vite && npm run build
 
 COPY docker/nginx.conf /etc/nginx/nginx.conf

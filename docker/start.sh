@@ -1,6 +1,10 @@
 #!/bin/sh
 set -e
 
+echo '==> Publishing assets...'
+php artisan filament:assets
+php artisan vendor:publish --tag=livewire:assets --force
+
 echo '==> Caching config at runtime...'
 php artisan config:cache
 php artisan route:cache
@@ -11,15 +15,6 @@ php artisan migrate --force --graceful
 
 echo '==> Seeding Cloudinary URLs...'
 php artisan db:seed --class=CloudinaryUrlSeeder --force
-
-echo '==> Publishing Filament assets...'
-php artisan filament:assets
-
-echo '==> Publishing Livewire assets...'
-php artisan livewire:publish --assets
-
-echo '==> Creating storage link...'
-php artisan storage:link || true
 
 echo '==> Starting services...'
 nginx

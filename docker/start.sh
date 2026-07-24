@@ -12,8 +12,8 @@ php artisan view:cache
 echo "==> Running migrations..."
 php artisan migrate --force --graceful
 
-echo "==> Seeding Cloudinary URLs..."
-php artisan db:seed --class=CloudinaryUrlSeeder --force
+#echo "==> Seeding Cloudinary URLs..."
+#php artisan db:seed --class=CloudinaryUrlSeeder --force
 
 echo "==> Starting services..."
 nginx

@@ -4,28 +4,39 @@
 
 @section('content')
 
-    <!-- Hero Section with Typing Animation -->
-    <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-        <div class="max-w-7xl mx-auto px-4 py-20 text-center">
-            <h1 class="text-5xl md:text-6xl font-extrabold mb-4 tracking-tight">
-                Welcome to <span class="text-yellow-300">The Powerful Posts</span>
-            </h1>
-
-            <!-- Typing Animation -->
-            <div class="text-xl md:text-2xl font-light mb-8 h-12">
-                <span id="typing-text" class="border-r-2 border-white pr-1"></span>
+    <!-- Hero Section -->
+    <div class="bg-ink-50 dark:bg-ink-950">
+        <div class="max-w-7xl mx-auto px-4 py-16 grid grid-cols-1 md:grid-cols-[1.4fr_1fr] gap-8 items-center">
+            <div>
+                <span class="inline-block bg-tile-sand text-tile-sand-fg text-xs px-3.5 py-1.5 rounded-full mb-4">
+                    Web app
+                </span>
+                <h1 class="font-display font-semibold text-4xl md:text-5xl leading-tight text-ink-900 dark:text-ink-50 mb-4">
+                    <span id="typing-text" class="border-r-2 border-ink-900 dark:border-ink-50 pr-1"></span>
+                </h1>
+                <p class="text-ink-700 dark:text-ink-300 text-base mb-8 max-w-lg">
+                    Long-form writing on things worth reading twice — plus a shop
+                    on the side, because why not.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <a href="/blog"
+                        class="bg-ink-900 dark:bg-ink-50 text-ink-50 dark:text-ink-900 px-7 py-3 rounded-full font-medium text-sm hover:bg-ink-700 dark:hover:bg-ink-100 transition">
+                        Explore Posts
+                    </a>
+                    <a href="#newsletter"
+                        class="border border-ink-300 dark:border-ink-700 text-ink-900 dark:text-ink-50 px-7 py-3 rounded-full font-medium text-sm hover:border-ink-500 transition">
+                        Subscribe
+                    </a>
+                </div>
             </div>
-
-            <!-- CTA Buttons -->
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="/blog"
-                    class="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition transform hover:scale-105">
-                    Explore Posts
-                </a>
-                <a href="#newsletter"
-                    class="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white/10 transition">
-                    Subscribe
-                </a>
+            <div class="bg-ink-100 dark:bg-ink-900 rounded-card p-6">
+                <svg class="w-6 h-6 text-accent-600 mb-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 21c3-4 4-8 4-12a4 4 0 0 1 8 0c0 4-1 8 4 12" />
+                    <path d="M14 9a4 4 0 0 1 4-4" />
+                </svg>
+                <p class="font-display italic text-lg leading-snug text-ink-900 dark:text-ink-50">
+                    Design is the quiet decision to remove one more thing.
+                </p>
             </div>
         </div>
     </div>

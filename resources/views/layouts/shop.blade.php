@@ -7,7 +7,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="stylesheet" href="{{ asset('css/dark-mode.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
     <script>
         function toggleTheme() {
             const isDark = document.documentElement.classList.toggle('dark');
@@ -20,7 +22,7 @@
         }
     </script>
     <style>
-        * { font-family: 'Poppins', sans-serif; }
+        * { font-family: 'Fraunces', sans-serif; }
     </style>
 </head>
 <body class="bg-gray-100 dark:bg-gray-900">

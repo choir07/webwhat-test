@@ -7,13 +7,69 @@
 
     @include('blog.partials.toast')
 
-     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link rel="stylesheet" href="{{ asset( 'css/dark-mode.css') }}">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="{{ asset('css/dark-mode.css') }}">
 
     <title>@yield('title', 'Powerful pOSTS')</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        // Display face: used only for h1/h2 and pull-quotes. Restraint
+                        // matters — never apply this to body copy or UI chrome.
+                        display: ['Fraunces', 'ui-serif', 'Georgia', 'serif'],
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        // One accent per surface, not five. Add a second only if you
+                        // introduce a genuinely new semantic meaning (e.g. "sale" vs "new").
+                        ink: {
+                            950: '#14120f',
+                            900: '#201d18',
+                            700: '#4a453c',
+                            500: '#7a7468',
+                            300: '#b8b2a4',
+                            100: '#ece8df',
+                            50: '#f7f5f0',
+                        },
+                        accent: {
+                            50: '#e1f5ee',
+                            100: '#9fe1cb',
+                            400: '#1d9e75',
+                            600: '#0f6e56',
+                            800: '#085041',
+                        },
+                        tile: {
+                            // Backgrounds for the icon tiles that replace inconsistent
+                            // stock photography — see components/media-tile.blade.php
+                            coral: '#f5ded5',
+                            'coral-fg': '#993c1d',
+                            sage: '#dcebd2',
+                            'sage-fg': '#3b6d11',
+                            sand: '#f6e6c8',
+                            'sand-fg': '#854f0b',
+                            sky: '#d6e7f7',
+                            'sky-fg': '#185fa5',
+                            plum: '#e3ddf2',
+                            'plum-fg': '#53468f',
+                        },
+                    },
+                    borderRadius: {
+                        card: '12px',
+                    },
+                },
+            },
+        }
+    </script>
+
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="stylesheet" href="{{ asset('css/dark-mode.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500&display=swap"
+        rel="stylesheet">
 
     <script>
         function toggleTheme() {
@@ -28,20 +84,23 @@
         }
     </script>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
 
     <style>
         * {
-            font-family: 'Fraunces', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
 
         body {
             color: #6aae8d;
         }
 
-        h1, h2, h3, h4, h5, h6 {
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
             color: #58947f;
             font-weight: 600;
         }
@@ -83,11 +142,10 @@
             color-scheme: dark;
         }
 
-        .dark body{
+        .dark body {
             background-color: #111827;
             color: #e5e7eb
         }
-        
     </style>
 
     <link rel="stylesheet" href="{{ asset('css/global.css') }}">
@@ -103,7 +161,8 @@
                     <a href="/blog" class="text-gray-600 hover:text-gray-800">All Posts</a>
                     <a href="/admin" class="text-gray-600 hover:text-gray-800">Admin</a>
                     <a href="/shop" class="text-gray-600 hover:text-gray-800">Shop</a>
-                    <button onclick="toggleTheme()" class="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white ml-4">
+                    <button onclick="toggleTheme()"
+                        class="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white ml-4">
                         <span class="dark:hidden">🌙 Dark</span>
                         <span class="hidden dark:inline">☀️ Light/🌙 Dark</span>
                     </button>
@@ -145,4 +204,5 @@
         });
     </script>
 </body>
+
 </html>

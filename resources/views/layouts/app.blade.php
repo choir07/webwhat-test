@@ -101,7 +101,7 @@
         h4,
         h5,
         h6 {
-            color: #58947f;
+            color: #58947d;
             font-weight: 600;
         }
 

@@ -1,47 +1,64 @@
-# fix-db-sync.ps1
+# ps-script-general.ps1
 Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "🔄 Fixing Database Sync" -ForegroundColor Cyan
+Write-Host "🔧 Fixing Memory Limit for Shop" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Yellow
 
-# Step 1: Export production as SQL
+# Update start.sh
 Write-Host ""
-Write-Host "[1/4] Exporting production database as SQL..." -ForegroundColor Yellow
-$env:PGPASSWORD="Pr45p03kwYiWkbOYbr4wPntqxREnV8Q1"
-$psql = "C:\Program Files\PostgreSQL\18\bin\pg_dump.exe"
-$host = "dpg-d8sub3v7f7vs73bi7t9g-a.singapore-postgres.render.com"
-$user = "the_powerful_posts_user"
-$db = "the_powerful_posts"
+Write-Host "[1/3] Updating start.sh with memory limit..."
 
-& $psql -h $host -U $user -d $db --no-owner --no-privileges > production_dump.sql
-Write-Host "✅ Exported to production_dump.sql" -ForegroundColor Green
+$startContent = @'
+#!/bin/bash
+set -e
 
-# Step 2: Get local password
+echo "========================================"
+echo "🚀 STARTING CONTAINER"
+echo "========================================"
+
+echo "==> Setting PHP memory limit to 256M..."
+echo "memory_limit = 256M" > /usr/local/etc/php/conf.d/memory-limit.ini
+
+echo "==> Setting permissions..."
+chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+
+echo "==> Creating storage link..."
+php artisan storage:link || true
+
+echo "==> Clearing caches..."
+php artisan optimize:clear
+
+echo "==> Running migrations..."
+php artisan migrate --force
+
+echo "==> Starting PHP-FPM..."
+php-fpm -D
+
+echo "==> Starting Nginx..."
+nginx -g 'daemon off;'
+'@
+
+$startContent | Out-File -FilePath "docker/start.sh" -Encoding utf8
+Write-Host "✅ Updated start.sh" -ForegroundColor Green
+
+# Commit and push
 Write-Host ""
-Write-Host "[2/4] Enter your local PostgreSQL password:" -ForegroundColor Yellow
-$localPass = Read-Host -AsSecureString
-$localPass = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($localPass))
-
-# Step 3: Import to local
-Write-Host ""
-Write-Host "[3/4] Importing to local database..." -ForegroundColor Yellow
-$env:PGPASSWORD = $localPass
-& "C:\Program Files\PostgreSQL\18\bin\psql.exe" -h localhost -U postgres -d f5_crud -f production_dump.sql 2>$null
+Write-Host "[2/3] Committing changes..."
+git add docker/start.sh
+git commit -m "Fix: Increase PHP memory limit to 256M for shop"
+git push origin main
 
 if ($LASTEXITCODE -eq 0) {
-    Write-Host "✅ Import successful" -ForegroundColor Green
+    Write-Host "✅ Pushed to GitHub" -ForegroundColor Green
 } else {
-    Write-Host "⚠️ Import had some errors but may have completed partially" -ForegroundColor Yellow
+    Write-Host "❌ Push failed. Please check your Git connection." -ForegroundColor Red
 }
 
-# Step 4: Run migrations
 Write-Host ""
-Write-Host "[4/4] Running migrations locally..." -ForegroundColor Yellow
-php artisan migrate --force
-Write-Host "✅ Migrations run" -ForegroundColor Green
-
+Write-Host "[3/3] Done!" -ForegroundColor Green
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Green
-Write-Host "✅ Sync complete!" -ForegroundColor Green
+Write-Host "✅ Redeploy on Railway!" -ForegroundColor Green
 Write-Host "========================================" -ForegroundColor Cyan
 
-Read-Host "Press Enter to exit"
+Read-Host 'Press Enter to exit'

@@ -1,4 +1,4 @@
-
+{{--
     Usage:
         <x-product-card
             :href="route('shop.show', $product)"
@@ -11,7 +11,7 @@
         >
             <path d="M4 4h16v16H4z" />
         </x-product-card>
-
+--}}
 @props([
     'href' => '#',
     'name' => '',

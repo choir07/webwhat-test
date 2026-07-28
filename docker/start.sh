@@ -1,6 +1,8 @@
 #!/bin/sh
 set -e
 
+echo "memory_limit = 256M" > /usr/local/etc/php/conf.d/memory-limit.ini
+
 echo "==> Publishing Filament assets..."
 php artisan filament:assets
 

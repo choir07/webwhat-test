@@ -92,7 +92,7 @@
         }
 
         body {
-            color: #6aae8d;
+            color: #6aae8e;
         }
 
         h1,

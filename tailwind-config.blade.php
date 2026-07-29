@@ -1,15 +1,15 @@
 {{--
-    Include once, in BOTH layouts, immediately BEFORE the
-    <script src="https://cdn.tailwindcss.com"></script> tag — the CDN script
-    reads window.tailwind.config at load time, so this must run first.
+Include once, in BOTH layouts, immediately BEFORE the
+<script src="https://cdn.tailwindcss.com"></script> tag — the CDN script
+reads window.tailwind.config at load time, so this must run first.
 
-        resources/views/layouts/app.blade.php
-        resources/views/layouts/shop.blade.php
+resources/views/layouts/app.blade.php
+resources/views/layouts/shop.blade.php
 
-    The CDN build scans the live DOM for classes instead of a content[] file
-    list, so there's no `content` key here — that option only exists for the
-    npm/PostCSS build. `plugins` is also dropped: the CDN script can't load
-    npm plugin packages, only the config object itself.
+The CDN build scans the live DOM for classes instead of a content[] file
+list, so there's no `content` key here — that option only exists for the
+npm/PostCSS build. `plugins` is also dropped: the CDN script can't load
+npm plugin packages, only the config object itself.
 --}}
 <script>
     tailwind.config = {
@@ -63,3 +63,18 @@
     }
 </script>
 <script src="https://cdn.tailwindcss.com"></script>
+<script>
+    export default {
+        content: [
+            "./resources/**/*.blade.php",
+            "./resources/**/*.js",
+            "./resources/**/*.vue",
+            "./vendor/filament/**/*.blade.php",
+        ],
+        darkMode: 'class',
+        theme: {
+            extend: {},
+        },
+        plugins: [],
+    } 
+</script>

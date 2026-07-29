@@ -63,18 +63,3 @@ npm plugin packages, only the config object itself.
     }
 </script>
 <script src="https://cdn.tailwindcss.com"></script>
-<script>
-    export default {
-        content: [
-            "./resources/**/*.blade.php",
-            "./resources/**/*.js",
-            "./resources/**/*.vue",
-            "./vendor/filament/**/*.blade.php",
-        ],
-        darkMode: 'class',
-        theme: {
-            extend: {},
-        },
-        plugins: [],
-    } 
-</script>

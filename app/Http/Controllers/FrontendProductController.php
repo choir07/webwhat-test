@@ -11,7 +11,7 @@ class FrontendProductController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Product::where('status', ProductStatus::PUBLISHED);
+            $query = Product::where('status', 'published');
 
         // Category filter
         if ($request->has('category') && $request->category) {
@@ -50,13 +50,13 @@ class FrontendProductController extends Controller
     public function show($slug)
     {
         $product = Product::where('slug', $slug)
-            ->where('status', ProductStatus::PUBLISHED)
+                    ->where('status', 'published')
             ->firstOrFail();
 
         $related = Product::with('category')
             ->where('category_id', $product->category_id)
             ->where('id', '!=', $product->id)
-            ->where('status', ProductStatus::PUBLISHED)
+            ->where('status', 'published')
             ->limit(4)
             ->get();
 

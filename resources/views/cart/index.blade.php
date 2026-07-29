@@ -1,88 +1,104 @@
-@extends('layouts.shop')  {{-- Changed from layouts.app --}}
+@extends('layouts.shop')
 
 @section('title', 'Shopping Cart')
 
 @section('content')
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <h1 class="text-2xl font-bold text-gray-800 mb-6">Shopping Cart</h1>
+<div>
+    <h1 class="shop-title">Shopping Cart</h1>
     
+    @if(session('success'))
+        <div style="background:#d1fae5;color:#065f46;padding:0.75rem 1rem;border-radius:0.5rem;margin-bottom:1rem;">
+            {{ session('success') }}
+        </div>
+    @endif
+
     @if(empty($items))
-        <div class="text-center py-12">
-            <p class="text-gray-500 text-lg">Your cart is empty.</p>
-            <a href="{{ route('shop.index') }}" class="mt-4 inline-block bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">
+        <div class="no-products">
+            <p style="font-size:1.125rem;">Your cart is empty.</p>
+            <a href="{{ route('shop.index') }}" style="display:inline-block;margin-top:1rem;background:#2563eb;color:white;padding:0.625rem 1.5rem;border-radius:0.375rem;text-decoration:none;font-weight:500;">
                 Continue Shopping
             </a>
         </div>
     @else
-        <div class="bg-white rounded-lg shadow overflow-hidden">
-            <table class="w-full">
-                <thead class="bg-gray-50">
+        <div style="background:white;border-radius:0.75rem;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.1);">
+            <table style="width:100%;border-collapse:collapse;">
+                <thead style="background:#f9fafb;border-bottom:1px solid #e5e7eb;">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Product</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Price</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Quantity</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Total</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Action</th>
+                        <th style="padding:0.75rem 1rem;text-align:left;font-size:0.75rem;font-weight:600;text-transform:uppercase;color:#6b7280;">Product</th>
+                        <th style="padding:0.75rem 1rem;text-align:left;font-size:0.75rem;font-weight:600;text-transform:uppercase;color:#6b7280;">Price</th>
+                        <th style="padding:0.75rem 1rem;text-align:left;font-size:0.75rem;font-weight:600;text-transform:uppercase;color:#6b7280;">Quantity</th>
+                        <th style="padding:0.75rem 1rem;text-align:left;font-size:0.75rem;font-weight:600;text-transform:uppercase;color:#6b7280;">Total</th>
+                        <th style="padding:0.75rem 1rem;text-align:left;font-size:0.75rem;font-weight:600;text-transform:uppercase;color:#6b7280;">Action</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-200">
+                <tbody>
                     @foreach($items as $productId => $item)
-                    <tr>
-                        <td class="px-6 py-4">
-                            <div class="flex items-center">
-                                @if(isset($item['image']) && $item['image'])
-                                <img src="{{ $item['image'] }}" alt="{{ $item['name'] }}" class="w-16 h-16 object-cover rounded mr-4">
-                                @else
-                                <div class="w-16 h-16 bg-gray-200 rounded mr-4 flex items-center justify-center text-gray-400">
+                    <tr style="border-bottom:1px solid #f3f4f6;">
+                        <td style="padding:1rem;display:flex;align-items:center;gap:1rem;">
+                            @if(isset($item['image']) && $item['image'])
+                                <img src="{{ $item['image'] }}" alt="{{ $item['name'] }}" 
+                                     style="width:64px;height:64px;object-fit:cover;border-radius:0.375rem;">
+                            @else
+                                <div style="width:64px;height:64px;background:#e5e7eb;border-radius:0.375rem;display:flex;align-items:center;justify-content:center;color:#9ca3af;font-size:0.75rem;">
                                     No Image
                                 </div>
-                                @endif
-                                <span class="font-medium">{{ $item['name'] }}</span>
-                            </div>
+                            @endif
+                            <span style="font-weight:500;color:#111827;">{{ $item['name'] }}</span>
                         </td>
-                        <td class="px-6 py-4">${{ number_format($item['price'], 2) }}</td>
-                        <td class="px-6 py-4">
-                            <form action="{{ route('cart.update', $productId) }}" method="POST" class="flex items-center">
+                        <td style="padding:1rem;color:#374151;">${{ number_format($item['price'], 2) }}</td>
+                        <td style="padding:1rem;">
+                            <form action="{{ route('cart.update', $productId) }}" method="POST" style="display:flex;align-items:center;gap:0.5rem;">
                                 @csrf
                                 @method('PATCH')
-                                <input type="number" name="quantity" value="{{ $item['quantity'] }}" min="1" class="w-16 border rounded px-2 py-1">
-                                <button type="submit" class="ml-2 text-blue-600 hover:text-blue-800">Update</button>
+                                <input type="number" name="quantity" value="{{ $item['quantity'] }}" min="1" 
+                                       style="width:64px;border:1px solid #d1d5db;border-radius:0.375rem;padding:0.375rem 0.5rem;font-size:0.875rem;">
+                                <button type="submit" style="color:#2563eb;background:none;border:none;cursor:pointer;font-size:0.875rem;">
+                                    Update
+                                </button>
                             </form>
                         </td>
-                        <td class="px-6 py-4">${{ number_format($item['price'] * $item['quantity'], 2) }}</td>
-                        <td class="px-6 py-4">
+                        <td style="padding:1rem;font-weight:600;color:#111827;">
+                            ${{ number_format($item['price'] * $item['quantity'], 2) }}
+                        </td>
+                        <td style="padding:1rem;">
                             <form action="{{ route('cart.remove', $productId) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:text-red-800">Remove</button>
+                                <button type="submit" style="color:#dc2626;background:none;border:none;cursor:pointer;font-size:0.875rem;">
+                                    Remove
+                                </button>
                             </form>
                         </td>
                     </tr>
                     @endforeach
                 </tbody>
-                <tfoot class="bg-gray-50">
+                <tfoot style="background:#f9fafb;">
                     <tr>
-                        <td colspan="3" class="px-6 py-4 text-right font-bold">Total:</td>
-                        <td class="px-6 py-4 font-bold">${{ number_format($total, 2) }}</td>
+                        <td colspan="3" style="padding:1rem;text-align:right;font-weight:600;font-size:1.125rem;color:#111827;">
+                            Total:
+                        </td>
+                        <td style="padding:1rem;font-weight:700;font-size:1.125rem;color:#111827;">
+                            ${{ number_format($total, 2) }}
+                        </td>
                         <td></td>
                     </tr>
                 </tfoot>
             </table>
         </div>
         
-        <div class="mt-6 flex justify-between">
-            <a href="{{ route('shop.index') }}" class="bg-gray-500 text-white px-6 py-2 rounded hover:bg-gray-600">
+        <div style="display:flex;justify-content:space-between;margin-top:1.5rem;flex-wrap:wrap;gap:1rem;">
+            <a href="{{ route('shop.index') }}" style="background:#6b7280;color:white;padding:0.625rem 1.5rem;border-radius:0.375rem;text-decoration:none;font-weight:500;transition:background 0.2s;">
                 Continue Shopping
             </a>
-            <div>
-                <form action="{{ route('cart.clear') }}" method="POST" class="inline">
+            <div style="display:flex;gap:0.75rem;">
+                <form action="{{ route('cart.clear') }}" method="POST">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600 mr-2">
+                    <button type="submit" style="background:#dc2626;color:white;padding:0.625rem 1.5rem;border-radius:0.375rem;border:none;font-weight:500;cursor:pointer;transition:background 0.2s;">
                         Clear Cart
                     </button>
                 </form>
-                <a href="{{ route('checkout.index') }}" class="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600">
+                <a href="{{ route('checkout.index') }}" style="background:#16a34a;color:white;padding:0.625rem 1.5rem;border-radius:0.375rem;text-decoration:none;font-weight:500;transition:background 0.2s;">
                     Proceed to Checkout
                 </a>
             </div>

@@ -1,111 +1,94 @@
-﻿@extends('layouts.shop') {{-- Changed from layouts.app --}}
+﻿@extends('layouts.shop')
 
 @section('title', $product->name)
 
 @section('content')
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div class="mb-4">
-            <a href="{{ route('shop.index') }}" class="text-blue-500 hover:text-blue-700">
-                â† Back to Products
-            </a>
-        </div>
+<div>
+    <a href="{{ route('shop.index') }}" style="color:#2563eb;text-decoration:none;display:inline-block;margin-bottom:1rem;">
+        ← Back to Products
+    </a>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- Product Image -->
-            <div>
-                <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full rounded-lg shadow-md">
-            </div>
+    <div style="display:grid;grid-template-columns:1fr;gap:2rem;">
+        @if(isset($product->image_url))
+            <img src="{{ $product->image_url }}" alt="{{ $product->name }}" 
+                 style="width:100%;max-height:400px;object-fit:cover;border-radius:0.75rem;box-shadow:0 1px 3px rgba(0,0,0,0.1);">
+        @endif
 
-            <!-- Product Details -->
-            <div>
-                <h1 class="text-3xl font-bold text-gray-800">{{ $product->name }}</h1>
-                @if($product->category)
-                    <p class="text-sm text-gray-500 mt-1">{{ $product->category->name }}</p>
-                @endif
+        <div>
+            <h1 style="font-size:2rem;font-weight:700;color:#111827;">{{ $product->name }}</h1>
+            @if($product->category)
+                <p style="color:#6b7280;font-size:0.875rem;">{{ $product->category->name }}</p>
+            @endif
 
-                <div class="mt-4">
-                    @if($product->sale_price)
-                        <span class="text-3xl font-bold text-red-600">${{ number_format($product->sale_price, 2) }}</span>
-                        <span class="text-lg text-gray-400 line-through ml-2">${{ number_format($product->price, 2) }}</span>
-                    @else
-                        <span class="text-3xl font-bold text-gray-800">${{ number_format($product->price, 2) }}</span>
-                    @endif
-                </div>
-
-                <div class="mt-4">
-                    <p class="text-sm text-gray-600">
-                        Stock: <span class="font-semibold {{ $product->stock > 0 ? 'text-green-600' : 'text-red-600' }}">
-                            {{ $product->stock > 0 ? $product->stock . ' available' : 'Out of stock' }}
-                        </span>
-                    </p>
-                </div>
-
-                <div class="mt-6">
-                    <h3 class="text-lg font-semibold text-gray-800">Description</h3>
-                    <div class="mt-2 prose max-w-none">
-                        {!! $product->description !!}
-                    </div>
-                </div>
-
-                @if($product->stock > 0)
-                    <div class="mt-8">
-                        <form action="{{ route('cart.add') }}" method="POST" class="flex items-center gap-4">
-                            @csrf
-                            <input type="hidden" name="product_id" value="{{ $product->id }}">
-                            <input type="number" name="quantity" value="1" min="1" max="{{ $product->stock }}"
-                                class="w-20 border border-gray-300 rounded px-3 py-2">
-                            <button type="submit"
-                                class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition">
-                                Add to Cart
-                            </button>
-                        </form>
-                    </div>
+            <div style="margin:1rem 0;">
+                @if($product->sale_price)
+                    <span style="font-size:2rem;font-weight:700;color:#dc2626;">
+                        ${{ number_format($product->sale_price, 2) }}
+                    </span>
+                    <span style="font-size:1rem;color:#9ca3af;text-decoration:line-through;margin-left:0.5rem;">
+                        ${{ number_format($product->price, 2) }}
+                    </span>
                 @else
-                    <div class="mt-8">
-                        <span class="bg-red-100 text-red-700 px-4 py-2 rounded-lg">Out of Stock</span>
-                    </div>
+                    <span style="font-size:2rem;font-weight:700;color:#111827;">
+                        ${{ number_format($product->price, 2) }}
+                    </span>
                 @endif
             </div>
+
+            <p style="color:#6b7280;font-size:0.875rem;">
+                Stock: 
+                <span style="font-weight:600;{{ $product->stock > 0 ? 'color:#16a34a;' : 'color:#dc2626;' }}">
+                    {{ $product->stock > 0 ? $product->stock . ' available' : 'Out of stock' }}
+                </span>
+            </p>
+
+            @if($product->description)
+                <div style="margin:1.5rem 0;color:#374151;line-height:1.8;">
+                    {!! $product->description !!}
+                </div>
+            @endif
+
+            @if($product->stock > 0)
+                <form action="{{ route('cart.add') }}" method="POST" style="display:flex;align-items:center;gap:1rem;margin-top:1rem;">
+                    @csrf
+                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                    <input type="number" name="quantity" value="1" min="1" max="{{ $product->stock }}"
+                           style="width:80px;border:1px solid #d1d5db;border-radius:0.375rem;padding:0.5rem;">
+                    <button type="submit" style="background:#2563eb;color:white;padding:0.625rem 1.5rem;border-radius:0.375rem;border:none;font-weight:500;cursor:pointer;transition:background 0.2s;">
+                        Add to Cart
+                    </button>
+                </form>
+            @else
+                <div style="background:#fee2e2;color:#991b1b;padding:0.5rem 1rem;border-radius:0.375rem;display:inline-block;margin-top:1rem;">
+                    Out of Stock
+                </div>
+            @endif
         </div>
+    </div>
 
-        <!-- Related Products -->
-        @if($related->isNotEmpty())
-            <div class="mt-12">
-                <h2 class="text-2xl font-bold text-gray-800 mb-4">Related Products</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-                    @foreach($related as $relatedProduct)
-                        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
-                            @if($relatedProduct->slug)
-                                <a href="{{ route('shop.show', $relatedProduct->slug) }}">
-                                    <img src="{{ $relatedProduct->image_url ?? 'https://placehold.co/400x300?text=No+Image' }}"
-                                        alt="{{ $relatedProduct->name }}" class="w-full h-40 object-cover">
-                                </a>
-                            @else
-                                <img src="{{ $relatedProduct->image_url ?? 'https://placehold.co/400x300?text=No+Image' }}"
-                                    alt="{{ $relatedProduct->name }}" class="w-full h-40 object-cover">
-                            @endif
-
-                            <div class="p-4">
-                                @if($relatedProduct->slug)
-                                    <a href="{{ route('shop.show', $relatedProduct->slug) }}" class="block">
-                                        <h3 class="text-lg font-semibold text-gray-800 hover:text-blue-600">
-                                            {{ $relatedProduct->name }}
-                                        </h3>
-                                    </a>
-                                @else
-                                    <h3 class="text-lg font-semibold text-gray-800">
-                                        {{ $relatedProduct->name }}
-                                    </h3>
-                                @endif
-                                <div class="mt-2">
-                                    <span
-                                        class="text-lg font-bold text-gray-800">${{ number_format($relatedProduct->price, 2) }}</span>
-                                </div>
+    @if(isset($related) && $related->isNotEmpty())
+        <div style="margin-top:3rem;">
+            <h2 style="font-size:1.5rem;font-weight:700;color:#111827;margin-bottom:1rem;">Related Products</h2>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;">
+                @foreach($related as $relatedProduct)
+                    <div style="background:white;border-radius:0.5rem;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.1);">
+                        <a href="{{ route('shop.show', $relatedProduct->slug) }}">
+                            <img src="{{ $relatedProduct->image_url }}" alt="{{ $relatedProduct->name }}" 
+                                 style="width:100%;height:150px;object-fit:cover;">
+                        </a>
+                        <div style="padding:0.75rem;">
+                            <a href="{{ route('shop.show', $relatedProduct->slug) }}" 
+                               style="font-weight:600;color:#111827;text-decoration:none;">
+                                {{ $relatedProduct->name }}
+                            </a>
+                            <div style="font-weight:700;color:#111827;margin-top:0.25rem;">
+                                ${{ number_format($relatedProduct->price, 2) }}
                             </div>
                         </div>
-                    @endforeach
-                </div>
+                    </div>
+                @endforeach
             </div>
-        @endif
-    </div>
+        </div>
+    @endif
+</div>
 @endsection

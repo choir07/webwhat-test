@@ -3,19 +3,19 @@
 @section('title', 'Products')
 
 @section('content')
-<div class="shop-container py-8">
-    <div class="flex justify-between items-center mb-6">
+<div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
         <h1 class="shop-title">All Products</h1>
 
-        <form action="{{ route('shop.index') }}" method="GET" class="flex items-center">
+        <form action="{{ route('shop.index') }}" method="GET" class="shop-search">
             <input type="text" name="search" placeholder="Search products..."
-                value="{{ request('search') }}" class="search-input">
-            <button type="submit" class="search-btn">Search</button>
+                value="{{ request('search') }}" class="shop-search-input">
+            <button type="submit" class="shop-search-btn">Search</button>
         </form>
     </div>
 
     <!-- Category Filter -->
-    <div class="mb-8 flex flex-wrap gap-2">
+    <div class="shop-categories">
         <a href="{{ route('shop.index') }}" 
            class="category-pill {{ !request('category') ? 'active' : 'inactive' }}">
             All
@@ -44,11 +44,13 @@
                         @if($product->category)
                             <p class="product-category">{{ $product->category->name }}</p>
                         @endif
-                        <div class="mt-2 flex items-center justify-between">
+                        <div class="product-footer">
                             <div>
                                 @if($product->sale_price)
-                                    <span class="product-price sale">${{ number_format($product->sale_price, 2) }}</span>
-                                    <span class="text-sm text-gray-400 line-through ml-2">${{ number_format($product->price, 2) }}</span>
+                                    <span class="product-price sale">
+                                        ${{ number_format($product->sale_price, 2) }}
+                                        <span class="original">${{ number_format($product->price, 2) }}</span>
+                                    </span>
                                 @else
                                     <span class="product-price">${{ number_format($product->price, 2) }}</span>
                                 @endif
@@ -64,7 +66,7 @@
             @endforeach
         </div>
 
-        <div class="pagination">
+        <div class="shop-pagination">
             {{ $products->links() }}
         </div>
     @endif

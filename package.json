@@ -8,6 +8,7 @@
         "preview": "vite preview"
     },
     "devDependencies": {
+        "@tailwindcss/postcss": "^4.3.3",
         "@tailwindcss/vite": "^4.3.0",
         "autoprefixer": "^10.5.4",
         "concurrently": "^9.0.1",

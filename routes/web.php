@@ -43,3 +43,8 @@ Route::delete('/cart/clear', [CartController::class, 'clear'])->name('cart.clear
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
 Route::get('/order/success', [CheckoutController::class, 'success'])->name('order.success');
+
+Route::post('/set-theme', function (Request $request) {
+    session(['theme' => $request->theme]);
+    return response()->json(['success' => true]);
+})->name('set-theme');

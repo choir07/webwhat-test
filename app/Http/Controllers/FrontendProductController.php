@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Enums\ProductStatus;
 
 class FrontendProductController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Product::with('category')  // Eager load category
-            ->where('status', true);
+        $query = Product::where('status', ProductStatus::PUBLISHED);
 
         // Category filter
         if ($request->has('category') && $request->category) {
@@ -51,10 +51,9 @@ class FrontendProductController extends Controller
 
     public function show($slug)
     {
-        // ✅ Eager load category
-        $product = Product::with('category')
-            ->where('slug', $slug)
-            ->where('status', true)
+
+        $product = Product::where('slug', $slug)
+            ->where('status', ProductStatus::PUBLISHED)
             ->firstOrFail();
 
         $related = Product::with('category')

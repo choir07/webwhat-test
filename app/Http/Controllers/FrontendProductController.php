@@ -41,9 +41,7 @@ class FrontendProductController extends Controller
                 break;
         }
 
-        // ✅ CRITICAL: Use paginate, NOT get()
         $products = $query->paginate(12);
-
         $categories = Category::all();
 
         return view('shop.index', compact('products', 'categories'));
@@ -51,7 +49,6 @@ class FrontendProductController extends Controller
 
     public function show($slug)
     {
-
         $product = Product::where('slug', $slug)
             ->where('status', ProductStatus::PUBLISHED)
             ->firstOrFail();
@@ -59,7 +56,7 @@ class FrontendProductController extends Controller
         $related = Product::with('category')
             ->where('category_id', $product->category_id)
             ->where('id', '!=', $product->id)
-            ->where('status', true)
+            ->where('status', ProductStatus::PUBLISHED)
             ->limit(4)
             ->get();
 

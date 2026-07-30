@@ -6,6 +6,10 @@ echo "memory_limit = 256M" > /usr/local/etc/php/conf.d/memory-limit.ini
 echo "==> Publishing Filament assets..."
 php artisan filament:assets
 
+echo "==> DEBUG: APP_ENV is currently: $APP_ENV"
+echo "==> DEBUG: Laravel resolves environment as:"
+php artisan tinker --execute="echo app()->environment();"
+
 echo "==> Caching config at runtime..."
 php artisan config:cache
 php artisan route:cache

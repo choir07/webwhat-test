@@ -21,3 +21,6 @@ php artisan migrate --force --graceful
 echo "==> Starting services..."
 nginx
 exec php-fpm
+
+echo "==> Starting Laravel server on port 10000..."
+php artisan serve --host=0.0.0.0 --port=10000

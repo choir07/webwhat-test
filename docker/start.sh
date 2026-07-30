@@ -23,6 +23,8 @@ php artisan migrate --force --graceful
 #php artisan db:seed --class=CloudinaryUrlSeeder --force
 
 echo "==> Starting services..."
+fuser -k 9000/tcp 2>/dev/null || true
+sleep 1
 nginx -g "daemon off;" &
 NGINX_PID=$!
 php-fpm --nodaemonize &

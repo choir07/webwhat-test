@@ -23,8 +23,10 @@ php artisan migrate --force --graceful
 #php artisan db:seed --class=CloudinaryUrlSeeder --force
 
 echo "==> Starting services..."
-nginx
-exec php-fpm
+nginx -g "daemon off;" &
+NGINX_PID=$!
+php-fpm --nodaemonize &
+PHP_PID=$!
+wait -n $NGINX_PID $PHP_PID
+exit $?
 
-echo "==> Starting Laravel server on port 10000..."
-php artisan serve --host=0.0.0.0 --port=10000

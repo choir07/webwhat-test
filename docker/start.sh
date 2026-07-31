@@ -1,6 +1,9 @@
 #!/bin/sh
 set -e
 
+echo "==> DEBUG: docker.conf present at start.sh entry?"
+ls -la /usr/local/etc/php-fpm.d/docker.conf 2>&1 || echo "NOT PRESENT"
+
 echo "memory_limit = 256M" > /usr/local/etc/php/conf.d/memory-limit.ini
 
 echo "==> Publishing Filament assets..."

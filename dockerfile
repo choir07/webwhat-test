@@ -11,10 +11,6 @@ RUN apk add --no-cache \
 RUN mkdir -p /var/run/php && \
     printf '[www]\nlisten = /var/run/php/php-fpm.sock\nlisten.owner = www-data\nlisten.group = www-data\nlisten.mode = 0660\n' > /usr/local/etc/php-fpm.d/zzz-socket.conf
 
-RUN echo "=== docker.conf ===" && cat /usr/local/etc/php-fpm.d/docker.conf \
-    && echo "=== zz-docker.conf ===" && cat /usr/local/etc/php-fpm.d/zz-docker.conf \
-    && echo "=== www.conf (grep listen/pool) ===" && grep -n -E "^\s*(listen|\[www\])" /usr/local/etc/php-fpm.d/www.conf
-
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html

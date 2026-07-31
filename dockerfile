@@ -8,9 +8,9 @@ RUN apk add --no-cache \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo pdo_pgsql gd zip bcmath mbstring intl exif
 
-RUN sed -i '/^listen[[:space:]]*=/d' /usr/local/etc/php-fpm.d/docker.conf \
-    && echo "==> BUILD DEBUG: docker.conf after sed:" \
-    && cat /usr/local/etc/php-fpm.d/docker.conf
+RUN echo "=== docker.conf ===" && cat /usr/local/etc/php-fpm.d/docker.conf \
+    && echo "=== zz-docker.conf ===" && cat /usr/local/etc/php-fpm.d/zz-docker.conf \
+    && echo "=== www.conf (grep listen/pool) ===" && grep -n -E "^\s*(listen|\[www\])" /usr/local/etc/php-fpm.d/www.conf
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 

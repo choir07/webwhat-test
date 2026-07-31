@@ -8,7 +8,7 @@ RUN apk add --no-cache \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo pdo_pgsql gd zip bcmath mbstring intl exif
 
-RUN rm -f /usr/local/etc/php-fpm.d/docker.conf
+RUN rm -f /usr/local/etc/php-fpm.d/docker.conf && echo "docker.conf removed at build $(date +%s)"
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 

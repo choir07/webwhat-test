@@ -25,11 +25,10 @@ php artisan migrate --force --graceful
 #echo "==> Seeding Cloudinary URLs..."
 #php artisan db:seed --class=CloudinaryUrlSeeder --force
 
-echo "==> DEBUG: PHP-FPM pool configs:"
-ls -la /usr/local/etc/php-fpm.d/
-echo "==> DEBUG: Listen directives found:"
-grep -r "^listen" /usr/local/etc/php-fpm.d/ || echo "none found"
-nginx -g "daemon off;" &
+echo "==> DEBUG: what's listening before FPM starts?"
+netstat -tlnp 2>/dev/null || ss -tlnp 2>/dev/null || echo "no netstat/ss available"
+echo "==> DEBUG: any php-fpm processes already running?"
+ps aux | grep -i fpm || echo "none found"
 NGINX_PID=$!
 php-fpm --nodaemonize &
 PHP_PID=$!

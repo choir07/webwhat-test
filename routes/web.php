@@ -31,7 +31,7 @@ Route::domain('pleasing-sparkle-production-7b89.up.railway.app')->group(function
 // ============================================
 Route::domain('innovative-miracle-production-2200.up.railway.app')->group(function () {
     Route::get('/', [BlogController::class, 'home'])->name('blog.index');
-    Route::get('/all-posts', [BlogController::class, 'index'])->name('blog.all');
+    Route::get('/blog', [BlogController::class, 'index'])->name('blog.all');
     Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
     // Add other blog routes here
 });

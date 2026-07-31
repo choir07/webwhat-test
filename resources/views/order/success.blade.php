@@ -8,7 +8,7 @@
         <svg style="width:4rem;height:4rem;margin:0 auto 1rem;color:#16a34a;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
         </svg>
-        <h2 style="font-size:1.5rem;font-weight:700;margin-bottom:0.5rem;">🎉 Order Placed!</h2>
+        <h2 style="font-size:1.5rem;font-weight:700;margin-bottom:0.5rem;"> Order Placed!</h2>
         <p style="color:#065f46;">Your order has been placed successfully.</p>
         <p style="color:#065f46;font-size:0.875rem;margin-top:0.5rem;">You will receive a confirmation email shortly.</p>
         <a href="{{ route('shop.index') }}" style="display:inline-block;margin-top:1.5rem;background:#2563eb;color:white;padding:0.625rem 1.5rem;border-radius:0.375rem;text-decoration:none;font-weight:500;">

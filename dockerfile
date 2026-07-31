@@ -8,6 +8,9 @@ RUN apk add --no-cache \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo pdo_pgsql gd zip bcmath mbstring intl exif
 
+RUN echo "listen = 9000" > /usr/local/etc/php-fpm.d/zz-custom.conf \
+    && echo "listen.allowed_clients = " >> /usr/local/etc/php-fpm.d/zz-custom.conf
+
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html

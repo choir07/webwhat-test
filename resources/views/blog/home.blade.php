@@ -17,17 +17,12 @@
                     <span id="typing-text" class="border-r-2 border-ink-900 dark:border-ink-50 pr-1"></span>
                 </h1>
                 <p class="text-ink-700 dark:text-ink-300 text-base mb-8 max-w-lg">
-                    Long-form writing on things worth reading twice — plus a shop
-                    on the side, because why not.
+                    Long-form writing on things worth reading twice. 
                 </p>
                 <div class="flex flex-col sm:flex-row gap-3">
                     <a href="/blog"
                         class="bg-ink-900 dark:bg-ink-50 text-ink-50 dark:text-ink-900 px-7 py-3 rounded-full font-medium text-sm hover:bg-ink-700 dark:hover:bg-ink-100 transition">
                         Explore Posts
-                    </a>
-                    <a href="#newsletter"
-                        class="border border-ink-300 dark:border-ink-700 text-ink-900 dark:text-ink-50 px-7 py-3 rounded-full font-medium text-sm hover:border-ink-500 transition">
-                        Subscribe
                     </a>
                 </div>
             </div>
@@ -38,7 +33,7 @@
                     <path d="M14 9a4 4 0 0 1 4-4" />
                 </svg>
                 <p class="font-display italic text-lg leading-snug text-ink-900 dark:text-ink-50">
-                    Design is the quiet decision to remove one more thing.
+                    The correct narrative and efficient media can control the world.
                 </p>
             </div>
         </div>

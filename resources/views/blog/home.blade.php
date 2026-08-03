@@ -5,13 +5,15 @@
 @section('content')
 
     <!-- Hero Section -->
-    <div class="bg-ink-50 dark:bg-ink-950">
+    <div class="bg-ink-50 dark:bg-ink-950 bg-cover bg-center"
+        style="background-image: linear-gradient(rgba(15,23,42,0.75), rgba(15,23,42,0.75)), url('https://res.cloudinary.com/dgk1pwiet/image/upload/q_auto,f_auto,w_1600/v1785723579/3293677_aezjjh.jpg'); background-size: cover; background-position: center;">
         <div class="max-w-7xl mx-auto px-4 py-16 grid grid-cols-1 md:grid-cols-[1.4fr_1fr] gap-8 items-center">
             <div>
                 <span class="inline-block bg-tile-sand text-tile-sand-fg text-xs px-3.5 py-1.5 rounded-full mb-4">
                     Web app
                 </span>
-                <h1 class="font-display font-semibold text-4xl md:text-5xl leading-tight text-ink-900 dark:text-ink-50 mb-4">
+                <h1
+                    class="font-display font-semibold text-4xl md:text-5xl leading-tight text-ink-900 dark:text-ink-50 mb-4">
                     <span id="typing-text" class="border-r-2 border-ink-900 dark:border-ink-50 pr-1"></span>
                 </h1>
                 <p class="text-ink-700 dark:text-ink-300 text-base mb-8 max-w-lg">
@@ -30,7 +32,8 @@
                 </div>
             </div>
             <div class="bg-ink-100 dark:bg-ink-900 rounded-card p-6">
-                <svg class="w-6 h-6 text-accent-600 mb-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <svg class="w-6 h-6 text-accent-600 mb-3" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M3 21c3-4 4-8 4-12a4 4 0 0 1 8 0c0 4-1 8 4 12" />
                     <path d="M14 9a4 4 0 0 1 4-4" />
                 </svg>
@@ -51,14 +54,15 @@
                     @foreach($featuredPosts as $post)
                         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition">
                             @if($post->featured_image_url)
-                                <img src="{{ $post->featured_image }}"  class="w-full h-48 object-cover">
+                                <img src="{{ $post->featured_image }}" class="w-full h-48 object-cover">
                             @endif
                             <div class="p-4">
                                 <h3 class="font-bold text-lg mb-2">
                                     <a href="/blog/{{ $post->slug }}" class="hover:text-blue-600">{{ $post->title }}</a>
                                 </h3>
                                 <p class="text-gray-600 dark:text-gray-300 text-sm">
-                                    {{ Str::limit(strip_tags($post->content ?? $post->description), 100) }}</p>
+                                    {{ Str::limit(strip_tags($post->content ?? $post->description), 100) }}
+                                </p>
                             </div>
                         </div>
                     @endforeach
@@ -81,7 +85,8 @@
                                 <a href="/blog/{{ $post->slug }}" class="hover:text-blue-600">{{ $post->title }}</a>
                             </h3>
                             <p class="text-gray-600 dark:text-gray-300 text-sm mb-3">
-                                {{ Str::limit(strip_tags($post->content ?? $post->description), 100) }}</p>
+                                {{ Str::limit(strip_tags($post->content ?? $post->description), 100) }}
+                            </p>
                             <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400">
                                 <span>{{ $post->published_at ? $post->published_at->format('M d, Y') : 'Draft' }}</span>
                                 <span> {{ $post->views ?? 0 }}</span>

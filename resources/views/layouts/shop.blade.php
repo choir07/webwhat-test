@@ -6,19 +6,6 @@
     $isBlogDomain = str_contains(request()->getHost(), 'blog.');
 @endphp
 
-<!-- Navigation -->
-<nav class="shop-nav">
-    @if($isShopDomain)
-        <a href="{{ url('/') }}" class="active">Shop</a>
-        <a href="{{ url('https://innovative-miracle-production-2200.up.railway.app/') }}">Blog</a>
-    @else
-        <a href="{{ url('https://pleasing-sparkle-production-7b89.up.railway.app') }}">Shop</a>
-        <a href="{{ url('/') }}" class="active">Blog</a>
-    @endif
-    <a href="{{ route('cart.index') }}">Cart</a>
-    <a href="{{ url('/admin/login') }}">Admin</a>
-</nav>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">

@@ -115,12 +115,10 @@ class CheckoutController extends Controller
         }
 
         $bill = $this->billplz->getBill($billId);
+        $isPaid = filter_var($bill['paid'] ?? false, FILTER_VALIDATE_BOOLEAN);
 
-        if ($bill['paid'] ?? false) {
-            $order->update([
-                'status' => 'paid',
-                'paid_at' => now(),
-            ]);
+        if ($isPaid) {
+            $order->update(['status' => 'paid', 'paid_at' => now()]);
             Cart::clear();
         } else {
             $order->update(['status' => 'failed']);
@@ -143,7 +141,8 @@ class CheckoutController extends Controller
 
         // Re-check status directly (don't rely solely on the callback having landed yet)
         $bill = $this->billplz->getBill($billId);
-        if (($bill['paid'] ?? false) && $order->status !== 'paid') {
+        $isPaid = filter_var($bill['paid'] ?? false, FILTER_VALIDATE_BOOLEAN);
+        if ($isPaid && $order->status !== 'paid') {
             $order->update(['status' => 'paid', 'paid_at' => now()]);
             Cart::clear();
         }

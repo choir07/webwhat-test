@@ -146,6 +146,6 @@ class Product extends Model
 
     public function getFormattedPriceAttribute(): string
     {
-        return "$" . number_format($this->price, 2);
+        return "RM" . number_format($this->price, 2);
     }
 }

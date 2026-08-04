@@ -103,12 +103,12 @@
                                                             <span style="font-weight:500;color:#111827;">{{ $item['name'] }}</span>
                                                             <span style="color:#6b7280;font-size:0.875rem;margin-left:0.5rem;">x {{ $item['quantity'] }}</span>
                                                         </div>
-                                                        <span style="color:#374151;">${{ number_format($item['price'] * $item['quantity'], 2) }}</span>
+                                                        <span style="color:#374151;">RM{{ number_format($item['price'] * $item['quantity'], 2) }}</span>
                                                     </div>
                                                 @endforeach
                                                 <div style="display:flex;justify-content:space-between;padding-top:0.75rem;font-weight:700;font-size:1.125rem;color:#111827;">
                                                     <span>Total</span>
-                                                    <span>${{ number_format($total, 2) }}</span>
+                                                    <span>RM{{ number_format($total, 2) }}</span>
                                                 </div>
                                             </div>
                                         </div>

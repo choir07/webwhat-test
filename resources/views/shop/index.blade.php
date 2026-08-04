@@ -48,11 +48,11 @@
                             <div>
                                 @if($product->sale_price)
                                     <span class="product-price sale">
-                                        ${{ number_format($product->sale_price, 2) }}
-                                        <span class="original">${{ number_format($product->price, 2) }}</span>
+                                        RM{{ number_format($product->sale_price, 2) }}
+                                        <span class="original">RM{{ number_format($product->price, 2) }}</span>
                                     </span>
                                 @else
-                                    <span class="product-price">${{ number_format($product->price, 2) }}</span>
+                                    <span class="product-price">RM{{ number_format($product->price, 2) }}</span>
                                 @endif
                             </div>
                             <form action="{{ route('cart.add') }}" method="POST">

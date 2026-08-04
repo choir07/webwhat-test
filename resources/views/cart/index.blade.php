@@ -45,7 +45,7 @@
                             @endif
                             <span style="font-weight:500;color:#111827;">{{ $item['name'] }}</span>
                         </td>
-                        <td style="padding:1rem;color:#374151;">${{ number_format($item['price'], 2) }}</td>
+                        <td style="padding:1rem;color:#374151;">RM{{ number_format($item['price'], 2) }}</td>
                         <td style="padding:1rem;">
                             <form action="{{ route('cart.update', $productId) }}" method="POST" style="display:flex;align-items:center;gap:0.5rem;">
                                 @csrf
@@ -58,7 +58,7 @@
                             </form>
                         </td>
                         <td style="padding:1rem;font-weight:600;color:#111827;">
-                            ${{ number_format($item['price'] * $item['quantity'], 2) }}
+                            RM{{ number_format($item['price'] * $item['quantity'], 2) }}
                         </td>
                         <td style="padding:1rem;">
                             <form action="{{ route('cart.remove', $productId) }}" method="POST">
@@ -78,7 +78,7 @@
                             Total:
                         </td>
                         <td style="padding:1rem;font-weight:700;font-size:1.125rem;color:#111827;">
-                            ${{ number_format($total, 2) }}
+                            RM{{ number_format($total, 2) }}
                         </td>
                         <td></td>
                     </tr>

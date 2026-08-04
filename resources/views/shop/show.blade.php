@@ -1,4 +1,4 @@
-﻿@extends('layouts.shop')
+@extends('layouts.shop')
 
 @section('title', $product->name)
 
@@ -23,14 +23,14 @@
             <div style="margin:1rem 0;">
                 @if($product->sale_price)
                     <span style="font-size:2rem;font-weight:700;color:#f87171;">
-                        ${{ number_format($product->sale_price, 2) }}
+                        RM{{ number_format($product->sale_price, 2) }}
                     </span>
                     <span style="font-size:1rem;color:#6b7280;text-decoration:line-through;margin-left:0.5rem;">
-                        ${{ number_format($product->price, 2) }}
+                        RM{{ number_format($product->price, 2) }}
                     </span>
                 @else
                     <span style="font-size:2rem;font-weight:700;color:#f9fafb;">
-                        ${{ number_format($product->price, 2) }}
+                        RM{{ number_format($product->price, 2) }}
                     </span>
                 @endif
             </div>
@@ -82,7 +82,7 @@
                                 {{ $relatedProduct->name }}
                             </a>
                             <div style="font-weight:700;color:#f9fafb;margin-top:0.25rem;">
-                                ${{ number_format($relatedProduct->price, 2) }}
+                                RM{{ number_format($relatedProduct->price, 2) }}
                             </div>
                         </div>
                     </div>

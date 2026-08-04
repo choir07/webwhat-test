@@ -23,7 +23,8 @@ Route::domain('pleasing-sparkle-production-7b89.up.railway.app')->group(function
     // Checkout routes
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
-    Route::get('/order/success', [CheckoutController::class, 'success'])->name('order.success');
+    Route::post('/billplz/callback', [CheckoutController::class, 'callback'])->name('billplz.callback');
+    Route::get('/billplz/redirect', [CheckoutController::class, 'redirect'])->name('billplz.redirect');
 });
 
 // ============================================

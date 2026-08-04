@@ -11,10 +11,12 @@ class OrderItem extends Model
         'product_id',
         'quantity',
         'price',
+        'total',
     ];
 
     protected $casts = [
         'price' => 'decimal:2',
+        'total' => 'decimal:2',
     ];
 
     public function order()

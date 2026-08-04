@@ -65,11 +65,15 @@ class CheckoutController extends Controller
         ]);
 
         foreach ($items as $item) {
+            $quantity = $item['quantity'] ?? $item->quantity;
+            $price = $item['price'] ?? $item->price;
+
             OrderItem::create([
                 'order_id' => $order->id,
                 'product_id' => $item['id'] ?? $item->id,
-                'quantity' => $item['quantity'] ?? $item->quantity,
-                'price' => $item['price'] ?? $item->price,
+                'quantity' => $quantity,
+                'price' => $price,
+                'total' => $price * $quantity,
             ]);
         }
 

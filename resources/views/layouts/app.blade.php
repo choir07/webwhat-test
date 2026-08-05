@@ -73,145 +73,132 @@
         href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500&display=swap"
         rel="stylesheet">
 
-    <script>
-        function toggleTheme() {
-            const isDark = document.documentElement.classList.toggle('dark');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        }
-
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-    </script>
-
-
-
     <style>
         * {
             font-family: 'Inter', sans-serif;
         }
 
-        body {
-            color: #3f3a2e;
-        }
-
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            color: #201d18;
-            font-weight: 600;
-        }
-
-        a {
-            color: #0f6e56;
-            transition: color 0.3s ease;
-        }
-
-        a:hover {
-            color: #6366f1;
-        }
-
-        .prose {
-            color: #212167;
-        }
-
-        .prose p {
-            color: #4a4a6a;
-            line-height: 1.7;
-        }
-
-        .post-title {
-            color: #0f0f1a;
-            font-weight: 700;
-        }
-
-        .post-meta {
-            color: #6b7280;
-            font-weight: 400;
-        }
-
-        .description-text {
-            color: #4a4a6a;
-            line-height: 1.6;
+        :root {
+            --bg-body: #f7f5f0;
+            --bg-card: #ffffff;
+            --bg-header: #ffffff;
+            --text-primary: #201d18;
+            --text-secondary: #4a453c;
+            --text-muted: #7a7468;
+            --border-color: #ece8df;
+            --link-color: #0f6e56;
+            --link-hover: #6366f1;
         }
 
         .dark {
             color-scheme: dark;
+            --bg-body: #14120f;
+            --bg-card: #1f2937;
+            --bg-header: #1f2937;
+            --text-primary: #f7f5f0;
+            --text-secondary: #d1d5db;
+            --text-muted: #9ca3af;
+            --border-color: #374151;
+            --link-color: #9fe1cb;
+            --link-hover: #a5b4fc;
         }
 
-        .dark body {
-            background-color: #111827;
-            color: #e5e7eb;
+        body {
+            background: var(--bg-body);
+            color: var(--text-secondary);
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
-        .dark h1,
-        .dark h2,
-        .dark h3,
-        .dark h4,
-        .dark h5,
-        .dark h6 {
-            color: #f3f4f6;
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--text-primary);
+            font-weight: 600;
         }
 
-        .dark a {
-            color: #9fe1cb;
+        a {
+            color: var(--link-color);
+            transition: color 0.3s ease;
         }
 
-        .dark .prose {
-            color: #d1d5db;
+        a:hover {
+            color: var(--link-hover);
         }
 
-        .dark .prose p {
-            color: #d1d5db;
+        .prose,
+        .prose p {
+            color: var(--text-secondary);
+            line-height: 1.7;
         }
 
-        .dark .post-title {
-            color: #f7f5f0;
+        .post-title {
+            color: var(--text-primary);
+            font-weight: 700;
         }
 
-        .dark .post-meta {
-            color: #9ca3af;
+        .post-meta {
+            color: var(--text-muted);
+            font-weight: 400;
         }
 
-        .dark .description-text {
-            color: #d1d5db;
+        .description-text {
+            color: var(--text-secondary);
+            line-height: 1.6;
         }
+
+        .blog-header,
+        .blog-footer {
+            background: var(--bg-header);
+            transition: background 0.3s ease;
+        }
+
+        .blog-nav a {
+            color: var(--text-secondary);
+        }
+
+        .blog-nav a:hover {
+            color: var(--text-primary);
+        }
+
+        .blog-card {
+            background: var(--bg-card);
+            border-color: var(--border-color);
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        .theme-toggle .icon-sun { display: inline-block; }
+        .theme-toggle .icon-moon { display: none; }
+        .dark .theme-toggle .icon-sun { display: none; }
+        .dark .theme-toggle .icon-moon { display: inline-block; }
     </style>
 
     <link rel="stylesheet" href="{{ asset('css/global.css') }}">
 </head>
 
-<body class="bg-gray-100 dark:bg-gray-900">
-    <nav class="bg-white dark:bg-gray-800 shadow-lg">
+<body>
+    <header class="blog-header shadow-lg">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between items-center py-4">
-                <a href="/" class="text-xl font-bold text-gray-800 dark:text-gray-100">Powerful pOSTS</a>
+                <a href="/" class="text-xl font-bold" style="color: var(--text-primary);">Powerful pOSTS</a>
                 <img src="{{ asset('images/post-logo.webp') }}" alt="Logo" class="h-8 w-auto">
-                <div class="space-x-4">
-                    <a href="/blog" class="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white">All Posts</a>
-                    <a href="/admin" class="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white">Admin</a>
-                    <a href="/shop" class="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white">Shop</a>
-                    <button onclick="toggleTheme()"
-                        class="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white ml-4">
-                        <span class="dark:hidden">🌙 Dark mode</span>
-                        <span class="hidden dark:inline">☀️ Light mode</span>
+                <div class="blog-nav flex items-center space-x-4">
+                    <a href="/blog">All Posts</a>
+                    <a href="/admin">Admin</a>
+                    <a href="/shop">Shop</a>
+                    <button id="themeToggle" class="theme-toggle flex items-center gap-1 ml-4" aria-label="Toggle dark mode">
+                        <span class="icon-sun">☀️</span>
+                        <span class="icon-moon">🌙</span>
+                        <span id="themeLabel" style="font-size:0.75rem;font-weight:500;">Light</span>
                     </button>
                 </div>
             </div>
         </div>
-    </nav>
+    </header>
 
     <main>
         @yield('content')
     </main>
 
-    <footer class="bg-white dark:bg-gray-800 mt-12 py-6">
-        <div class="max-w-7xl mx-auto px-4 text-center text-gray-500 dark:text-gray-400">
+    <footer class="blog-footer mt-12 py-6">
+        <div class="max-w-7xl mx-auto px-4 text-center" style="color: var(--text-muted);">
             &copy; {{ date('Y') }} My Blog. All rights reserved.
         </div>
     </footer>
@@ -236,6 +223,28 @@
 
         backToTop.addEventListener('click', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggle = document.getElementById('themeToggle');
+            const label = document.getElementById('themeLabel');
+            const html = document.documentElement;
+
+            let theme = localStorage.getItem('blog_theme') || 'light';
+            if (theme === 'dark') {
+                html.classList.add('dark');
+                label.textContent = 'Dark';
+            } else {
+                html.classList.remove('dark');
+                label.textContent = 'Light';
+            }
+
+            toggle.addEventListener('click', function () {
+                const isDark = html.classList.toggle('dark');
+                theme = isDark ? 'dark' : 'light';
+                localStorage.setItem('blog_theme', theme);
+                label.textContent = isDark ? 'Dark' : 'Light';
+            });
         });
     </script>
 </body>

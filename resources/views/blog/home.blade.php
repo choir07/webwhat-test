@@ -47,15 +47,15 @@
                 <h2 class="text-2xl font-semibold tracking-tight mb-6">Featured Posts</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     @foreach($featuredPosts as $post)
-                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition">
+                        <div class="blog-card border rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition">
                             @if($post->featured_image_url)
                                 <img src="{{ $post->featured_image }}" class="w-full h-48 object-cover">
                             @endif
                             <div class="p-4">
                                 <h3 class="font-bold text-lg mb-2">
-                                    <a href="/blog/{{ $post->slug }}" class="hover:text-blue-600">{{ $post->title }}</a>
+                                    <a href="/blog/{{ $post->slug }}">{{ $post->title }}</a>
                                 </h3>
-                                <p class="text-gray-600 dark:text-gray-300 text-sm">
+                                <p class="description-text text-sm">
                                     {{ Str::limit(strip_tags($post->content ?? $post->description), 100) }}
                                 </p>
                             </div>
@@ -70,27 +70,27 @@
             <h2 class="text-2xl font-semibold tracking-tight font-bold mb-6"> Recent Posts</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @forelse($recentPosts ?? [] as $post)
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden hover:shadow-lg transition">
+                    <div class="blog-card border rounded-lg shadow overflow-hidden hover:shadow-lg transition">
                         @if($post->featured_image_url)
                             <img src="{{ $post->featured_image }}" class="w-full h-48 object-cover">
                         @endif
                         <div class="p-4">
-                            <div class="text-xs text-blue-600 mb-1">{{ $post->category->name ?? 'Uncategorized' }}</div>
+                            <div class="text-xs mb-1" style="color: var(--link-color);">{{ $post->category->name ?? 'Uncategorized' }}</div>
                             <h3 class="font-semibold text-lg mb-2">
-                                <a href="/blog/{{ $post->slug }}" class="hover:text-blue-600">{{ $post->title }}</a>
+                                <a href="/blog/{{ $post->slug }}">{{ $post->title }}</a>
                             </h3>
-                            <p class="text-gray-600 dark:text-gray-300 text-sm mb-3">
+                            <p class="description-text text-sm mb-3">
                                 {{ Str::limit(strip_tags($post->content ?? $post->description), 100) }}
                             </p>
-                            <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400">
+                            <div class="flex justify-between text-xs post-meta">
                                 <span>{{ $post->published_at ? $post->published_at->format('M d, Y') : 'Draft' }}</span>
                                 <span> {{ $post->views ?? 0 }}</span>
                             </div>
                         </div>
                     </div>
                 @empty
-                    <div class="col-span-full text-center py-12 bg-white dark:bg-gray-800 rounded-lg">
-                        <p class="text-gray-500 dark:text-gray-400">No posts yet. Check back soon!</p>
+                    <div class="col-span-full text-center py-12 blog-card border rounded-lg">
+                        <p class="post-meta">No posts yet. Check back soon!</p>
                         <a href="/admin/posts/create"
                             class="inline-block mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
                             Create First Post

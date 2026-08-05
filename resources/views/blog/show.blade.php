@@ -14,12 +14,12 @@
     @endphp
 
     @if(count($headings) > 0)
-        <div class="hidden lg:block fixed right-8 top-1/3 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4">
+        <div class="hidden lg:block fixed right-8 top-1/3 w-64 blog-card border rounded-lg shadow-lg p-4">
             <h4 class="font-bold mb-3 text-sm"> Table of Contents</h4>
             <ul class="space-y-2 text-sm" id="toc-list">
                 @foreach($headings as $index => $heading)
                     <li>
-                        <a href="#heading-{{ $index }}" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 toc-link"
+                        <a href="#heading-{{ $index }}" class="toc-link"
                             data-target="heading-{{ $index }}">
                             {{ Str::limit(strip_tags($heading), 40) }}
                         </a>
@@ -72,7 +72,7 @@
     </script>
 
     <div class="max-w-4xl mx-auto px-4 py-8">
-        <article class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+        <article class="blog-card border rounded-lg shadow overflow-hidden">
 
             <!-- Featured Image -->
             @php
@@ -90,19 +90,19 @@
             @if($imageUrl)
                 <img src="{{ $post->featured_image }}" alt="{{ $post->title }}" class="w-full h-96 object-cover">
             @else
-                <div class="w-full h-96 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
-                    <span class="text-gray-400">No image</span>
+                <div class="w-full h-96 flex items-center justify-center" style="background: var(--border-color);">
+                    <span class="post-meta">No image</span>
                 </div>
             @endif
 
             <div class="p-8">
                 @if($post->category)
-                    <div class="text-sm text-blue-600 mb-2">{{ $post->category->name }}</div>
+                    <div class="text-sm mb-2" style="color: var(--link-color);">{{ $post->category->name }}</div>
                 @endif
 
                 <h1 class="post-title text-4xl tracking-tight mb-4">{{ $post->title }}</h1>
 
-                <div class="post-meta flex flex-wrap gap-4 text-sm mb-6 pb-4 border-b dark:border-gray-700">
+                <div class="post-meta flex flex-wrap gap-4 text-sm mb-6 pb-4 border-b" style="border-color: var(--border-color);">
                     <div>{{ $post->published_at ? $post->published_at->format('F j, Y') : 'Date not set' }}</div>
                     <div>By {{ $post->author->name ?? 'Unknown' }}</div>
                     <div class="flex items-center gap-1">
@@ -116,23 +116,23 @@
                 </div>
 
                 @if($post->excerpt)
-                    <div class="text-lg text-gray-600 dark:text-gray-300 italic mb-6 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                    <div class="text-lg italic mb-6 p-4 rounded-lg blog-card border description-text">
                         {{ $post->excerpt }}
                     </div>
                 @endif
 
-                <div class="prose max-w-none dark:prose-invert">
+                <div class="prose max-w-none">
                     @if($post->description)
                         <p class="description-text text-lg leading-relaxed">{{ $post->description }}</p>
                     @elseif($post->content)
                         {!! $post->content !!}
                     @else
-                        <p class="text-gray-500 italic">No description available.</p>
+                        <p class="post-meta italic">No description available.</p>
                     @endif
                 </div>
 
-                <div class="mt-6 pt-4 border-t dark:border-gray-700">
-                    <button onclick="openShareModal()" class="flex items-center space-x-1 text-gray-500 hover:text-blue-600">
+                <div class="mt-6 pt-4 border-t" style="border-color: var(--border-color);">
+                    <button onclick="openShareModal()" class="flex items-center space-x-1 post-meta">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z">
@@ -153,7 +153,7 @@
                 <h2 class="text-2xl font-bold mb-6">Related Posts</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     @foreach($relatedPosts as $related)
-                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+                        <div class="blog-card border rounded-lg shadow overflow-hidden">
                             @php
                                 $relatedImage = null;
                                 if ($related->featured_image) {
@@ -169,7 +169,7 @@
                             @endif
                             <div class="p-4">
                                 <h3 class="font-semibold">
-                                    <a href="/blog/{{ $related->slug }}" class="hover:text-blue-600">
+                                    <a href="/blog/{{ $related->slug }}">
                                         {{ $related->title }}
                                     </a>
                                 </h3>

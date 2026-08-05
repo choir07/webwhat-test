@@ -94,7 +94,7 @@
         }
 
         body {
-            color: #6aae8e;
+            color: #3f3a2e;
         }
 
         h1,
@@ -103,12 +103,12 @@
         h4,
         h5,
         h6 {
-            color: #58947d;
+            color: #201d18;
             font-weight: 600;
         }
 
         a {
-            color: #2ba927;
+            color: #0f6e56;
             transition: color 0.3s ease;
         }
 
@@ -146,27 +146,60 @@
 
         .dark body {
             background-color: #111827;
-            color: #e5e7eb
+            color: #e5e7eb;
+        }
+
+        .dark h1,
+        .dark h2,
+        .dark h3,
+        .dark h4,
+        .dark h5,
+        .dark h6 {
+            color: #f3f4f6;
+        }
+
+        .dark a {
+            color: #9fe1cb;
+        }
+
+        .dark .prose {
+            color: #d1d5db;
+        }
+
+        .dark .prose p {
+            color: #d1d5db;
+        }
+
+        .dark .post-title {
+            color: #f7f5f0;
+        }
+
+        .dark .post-meta {
+            color: #9ca3af;
+        }
+
+        .dark .description-text {
+            color: #d1d5db;
         }
     </style>
 
     <link rel="stylesheet" href="{{ asset('css/global.css') }}">
 </head>
 
-<body class="bg-gray-100">
-    <nav class="bg-white shadow-lg">
+<body class="bg-gray-100 dark:bg-gray-900">
+    <nav class="bg-white dark:bg-gray-800 shadow-lg">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between items-center py-4">
-                <a href="/" class="text-xl font-bold text-gray-800">Powerful pOSTS</a>
+                <a href="/" class="text-xl font-bold text-gray-800 dark:text-gray-100">Powerful pOSTS</a>
                 <img src="{{ asset('images/post-logo.webp') }}" alt="Logo" class="h-8 w-auto">
                 <div class="space-x-4">
-                    <a href="/blog" class="text-gray-600 hover:text-gray-800">All Posts</a>
-                    <a href="/admin" class="text-gray-600 hover:text-gray-800">Admin</a>
-                    <a href="/shop" class="text-gray-600 hover:text-gray-800">Shop</a>
+                    <a href="/blog" class="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white">All Posts</a>
+                    <a href="/admin" class="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white">Admin</a>
+                    <a href="/shop" class="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white">Shop</a>
                     <button onclick="toggleTheme()"
                         class="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white ml-4">
-                        <span class="dark:hidden">🌙 Dark</span>
-                        <span class="hidden dark:inline">☀️ Light</span>
+                        <span class="dark:hidden">🌙 Dark mode</span>
+                        <span class="hidden dark:inline">☀️ Light mode</span>
                     </button>
                 </div>
             </div>
@@ -177,8 +210,8 @@
         @yield('content')
     </main>
 
-    <footer class="bg-white mt-12 py-6">
-        <div class="max-w-7xl mx-auto px-4 text-center text-gray-500">
+    <footer class="bg-white dark:bg-gray-800 mt-12 py-6">
+        <div class="max-w-7xl mx-auto px-4 text-center text-gray-500 dark:text-gray-400">
             &copy; {{ date('Y') }} My Blog. All rights reserved.
         </div>
     </footer>

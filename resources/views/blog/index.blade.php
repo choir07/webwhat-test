@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="max-w-7xl mx-auto px-4 py-8">
-        <h1 class="text-3xl font-bold mb-8">All Posts</h1>
+        <h1 class="text-3xl font-bold mb-8 text-ink-900 dark:text-gray-100">All Posts</h1>
 
         @if($posts->count())
             <div class="space-y-6">

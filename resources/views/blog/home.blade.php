@@ -13,26 +13,26 @@
                     Web app
                 </span>
                 <h1
-                    class="font-display font-semibold text-4xl md:text-5xl leading-tight text-ink-900 dark:text-ink-50 mb-4">
-                    <span id="typing-text" class="border-r-2 border-ink-900 dark:border-ink-50 pr-1"></span>
+                    class="font-display font-semibold text-4xl md:text-5xl leading-tight text-ink-50 mb-4">
+                    <span id="typing-text" class="border-r-2 border-ink-50 pr-1"></span>
                 </h1>
-                <p class="text-ink-700 dark:text-ink-300 text-base mb-8 max-w-lg">
+                <p class="text-ink-300 text-base mb-8 max-w-lg">
                     Long-form writing on things worth reading twice. 
                 </p>
                 <div class="flex flex-col sm:flex-row gap-3">
                     <a href="/blog"
-                        class="bg-ink-900 dark:bg-ink-50 text-ink-50 dark:text-ink-900 px-7 py-3 rounded-full font-medium text-sm hover:bg-ink-700 dark:hover:bg-ink-100 transition">
+                        class="bg-ink-50 text-ink-900 px-7 py-3 rounded-full font-medium text-sm hover:bg-ink-100 transition">
                         Explore Posts
                     </a>
                 </div>
             </div>
-            <div class="bg-ink-100 dark:bg-ink-900 rounded-card p-6">
-                <svg class="w-6 h-6 text-accent-600 mb-3" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            <div class="bg-ink-900/60 border border-ink-700 rounded-card p-6">
+                <svg class="w-6 h-6 text-accent-400 mb-3" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M3 21c3-4 4-8 4-12a4 4 0 0 1 8 0c0 4-1 8 4 12" />
                     <path d="M14 9a4 4 0 0 1 4-4" />
                 </svg>
-                <p class="font-display italic text-lg leading-snug text-ink-900 dark:text-ink-50">
+                <p class="font-display italic text-lg leading-snug text-ink-50">
                     The correct narrative and efficient media can control the world.
                 </p>
             </div>

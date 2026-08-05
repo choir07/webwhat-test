@@ -13,6 +13,7 @@
     <title>@yield('title', 'Powerful pOSTS')</title>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
@@ -165,7 +166,7 @@
                     <button onclick="toggleTheme()"
                         class="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white ml-4">
                         <span class="dark:hidden">🌙 Dark</span>
-                        <span class="hidden dark:inline">☀️ Light/🌙 Dark</span>
+                        <span class="hidden dark:inline">☀️ Light</span>
                     </button>
                 </div>
             </div>

@@ -5,39 +5,50 @@
 @section('content')
 
     <!-- Hero Section -->
-    <div class="bg-ink-50 dark:bg-ink-950 bg-cover bg-center"
+    <style>
+        .hero-badge { background: #f6e6c8; color: #854f0b; }
+        .hero-heading { color: #f7f5f0 !important; }
+        .hero-sub { color: #d6d2c6; }
+        .hero-btn { background: #f7f5f0; color: #201d18; }
+        .hero-btn:hover { background: #ece8df; }
+        .hero-quote-box { background: rgba(32,29,24,0.6); border: 1px solid #4a453c; }
+        .hero-quote-text { color: #f7f5f0; }
+        .hero-quote-icon { color: #9fe1cb; }
+    </style>
+    <div class="bg-cover bg-center"
         style="background-image: linear-gradient(rgba(15,23,42,0.75), rgba(15,23,42,0.75)), url('https://res.cloudinary.com/dgk1pwiet/image/upload/q_auto,f_auto,w_1600/v1785723579/3293677_aezjjh.jpg'); background-size: cover; background-position: center;">
         <div class="max-w-7xl mx-auto px-4 py-16 grid grid-cols-1 md:grid-cols-[1.4fr_1fr] gap-8 items-center">
             <div>
-                <span class="inline-block bg-tile-sand text-tile-sand-fg text-xs px-3.5 py-1.5 rounded-full mb-4">
+                <span class="hero-badge inline-block text-xs px-3.5 py-1.5 rounded-full mb-4">
                     Web app
                 </span>
                 <h1
-                    class="font-display font-semibold text-4xl md:text-5xl leading-tight text-ink-50 mb-4">
-                    <span id="typing-text" class="border-r-2 border-ink-50 pr-1"></span>
+                    class="hero-heading font-display font-semibold text-4xl md:text-5xl leading-tight mb-4">
+                    <span id="typing-text" class="pr-1" style="border-right: 2px solid #f7f5f0;"></span>
                 </h1>
-                <p class="text-ink-300 text-base mb-8 max-w-lg">
+                <p class="hero-sub text-base mb-8 max-w-lg">
                     Long-form writing on things worth reading twice. 
                 </p>
                 <div class="flex flex-col sm:flex-row gap-3">
                     <a href="/blog"
-                        class="bg-ink-50 text-ink-900 px-7 py-3 rounded-full font-medium text-sm hover:bg-ink-100 transition">
+                        class="hero-btn px-7 py-3 rounded-full font-medium text-sm transition">
                         Explore Posts
                     </a>
                 </div>
             </div>
-            <div class="bg-ink-900/60 border border-ink-700 rounded-card p-6">
-                <svg class="w-6 h-6 text-accent-400 mb-3" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            <div class="hero-quote-box p-6" style="border-radius: 12px;">
+                <svg class="hero-quote-icon w-6 h-6 mb-3" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M3 21c3-4 4-8 4-12a4 4 0 0 1 8 0c0 4-1 8 4 12" />
                     <path d="M14 9a4 4 0 0 1 4-4" />
                 </svg>
-                <p class="font-display italic text-lg leading-snug text-ink-50">
+                <p class="hero-quote-text font-display italic text-lg leading-snug">
                     The correct narrative and efficient media can control the world.
                 </p>
             </div>
         </div>
     </div>
+
 
     <div class="max-w-7xl mx-auto px-4 py-8">
 

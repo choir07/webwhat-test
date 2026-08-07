@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Services\BillplzService;
 use Illuminate\Support\Str;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class CheckoutController extends Controller
 {
@@ -153,5 +154,35 @@ class CheckoutController extends Controller
 
         return redirect()->route('checkout.index')
             ->with('error', 'Payment was not completed. Please try again.');
+    }
+
+    /**
+     * Show the invoice in-browser (print-friendly HTML).
+     */
+    public function invoice(string $order_number)
+    {
+        $order = Order::with('items.product')->where('order_number', $order_number)->firstOrFail();
+
+        if ($order->status !== 'paid') {
+            abort(404);
+        }
+
+        return view('order.invoice', compact('order'));
+    }
+
+    /**
+     * Download the invoice as a PDF.
+     */
+    public function invoiceDownload(string $order_number)
+    {
+        $order = Order::with('items.product')->where('order_number', $order_number)->firstOrFail();
+
+        if ($order->status !== 'paid') {
+            abort(404);
+        }
+
+        $pdf = Pdf::loadView('order.invoice-pdf', compact('order'));
+
+        return $pdf->download('invoice-' . $order->order_number . '.pdf');
     }
 }

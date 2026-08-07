@@ -25,6 +25,10 @@ Route::domain('pleasing-sparkle-production-7b89.up.railway.app')->group(function
     Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
     Route::post('/billplz/callback', [CheckoutController::class, 'callback'])->name('billplz.callback');
     Route::get('/billplz/redirect', [CheckoutController::class, 'redirect'])->name('billplz.redirect');
+
+    // Invoice routes
+    Route::get('/order/{order_number}/invoice', [CheckoutController::class, 'invoice'])->name('order.invoice');
+    Route::get('/order/{order_number}/invoice/download', [CheckoutController::class, 'invoiceDownload'])->name('order.invoice.download');
 });
 
 // ============================================
@@ -60,6 +64,12 @@ if (app()->environment('local')) {
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
     Route::get('/order/success', [CheckoutController::class, 'success'])->name('order.success');
+    Route::post('/billplz/callback', [CheckoutController::class, 'callback'])->name('billplz.callback');
+    Route::get('/billplz/redirect', [CheckoutController::class, 'redirect'])->name('billplz.redirect');
+
+    // Invoice routes for local development
+    Route::get('/order/{order_number}/invoice', [CheckoutController::class, 'invoice'])->name('order.invoice');
+    Route::get('/order/{order_number}/invoice/download', [CheckoutController::class, 'invoiceDownload'])->name('order.invoice.download');
 }
 
 // Theme route (for dark mode)

@@ -8,8 +8,8 @@ RUN apk add --no-cache \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo pdo_pgsql gd zip bcmath mbstring intl exif
 
-RUN mkdir -p /var/run/php && \
-    printf '[www]\nlisten = /var/run/php/php-fpm.sock\nlisten.owner = www-data\nlisten.group = www-data\nlisten.mode = 0660\n' > /usr/local/etc/php-fpm.d/zzz-socket.conf
+RUN mkdir -p /var/run/php
+COPY docker/www.conf /usr/local/etc/php-fpm.d/zzz-www.conf
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 

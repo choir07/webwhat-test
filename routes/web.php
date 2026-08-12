@@ -45,32 +45,29 @@ Route::domain('innovative-miracle-production-2200.up.railway.app')->group(functi
 // FALLBACK - For local development
 // ============================================
 if (app()->environment('local')) {
-    // Blog routes for local development
-    Route::get('/', [BlogController::class, 'index'])->name('blog.index');
-    Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
+   
+    Route::get('/', [BlogController::class, 'index'])->name('local.blog.index');
+    Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('local.blog.show');
 
-    // Shop routes for local development
-    Route::get('/shop', [FrontendProductController::class, 'index'])->name('shop.index');
-    Route::get('/shop/{slug}', [FrontendProductController::class, 'show'])->name('shop.show');
+    Route::get('/shop', [FrontendProductController::class, 'index'])->name('local.shop.index');
+    Route::get('/shop/{slug}', [FrontendProductController::class, 'show'])->name('local.shop.show');
 
-    // Cart routes for local development
-    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-    Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
-    Route::delete('/cart/remove/{productId}', [CartController::class, 'remove'])->name('cart.remove');
-    Route::patch('/cart/update/{productId}', [CartController::class, 'update'])->name('cart.update');
-    Route::delete('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
+    Route::get('/cart', [CartController::class, 'index'])->name('local.cart.index');
+    Route::post('/cart/add', [CartController::class, 'add'])->name('local.cart.add');
+    Route::delete('/cart/remove/{productId}', [CartController::class, 'remove'])->name('local.cart.remove');
+    Route::patch('/cart/update/{productId}', [CartController::class, 'update'])->name('local.cart.update');
+    Route::delete('/cart/clear', [CartController::class, 'clear'])->name('local.cart.clear');
 
-    // Checkout routes for local development
-    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-    Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
-    Route::get('/order/success', [CheckoutController::class, 'success'])->name('order.success');
-    Route::post('/billplz/callback', [CheckoutController::class, 'callback'])->name('billplz.callback');
-    Route::get('/billplz/redirect', [CheckoutController::class, 'redirect'])->name('billplz.redirect');
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('local.checkout.index');
+    Route::post('/checkout', [CheckoutController::class, 'process'])->name('local.checkout.process');
+    Route::get('/order/success', [CheckoutController::class, 'success'])->name('local.order.success');
+    Route::post('/billplz/callback', [CheckoutController::class, 'callback'])->name('local.billplz.callback');
+    Route::get('/billplz/redirect', [CheckoutController::class, 'redirect'])->name('local.billplz.redirect');
 
-    // Invoice routes for local development
-    Route::get('/order/{order_number}/invoice', [CheckoutController::class, 'invoice'])->name('order.invoice');
-    Route::get('/order/{order_number}/invoice/download', [CheckoutController::class, 'invoiceDownload'])->name('order.invoice.download');
+    Route::get('/order/{order_number}/invoice', [CheckoutController::class, 'invoice'])->name('local.order.invoice');
+    Route::get('/order/{order_number}/invoice/download', [CheckoutController::class, 'invoiceDownload'])->name('local.order.invoice.download');
 }
+
 
 // Theme route (for dark mode)
 Route::post('/set-theme', function (Request $request) {

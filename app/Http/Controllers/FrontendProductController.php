@@ -10,42 +10,47 @@ use App\Enums\ProductStatus;
 class FrontendProductController extends Controller
 {
     public function index(Request $request)
-    {
-            $query = Product::where('status', 'published');
+{
+    $query = Product::where('status', 'published')
+        ->with(['category', 'productImages.file', 'image']);
 
-        // Category filter
-        if ($request->has('category') && $request->category) {
-            $query->where('category_id', $request->category);
-        }
-
-        // Search
-        if ($request->has('search') && $request->search) {
-            $query->where('name', 'like', '%' . $request->search . '%');
-        }
-
-        // Sort
-        $sort = $request->get('sort', 'newest');
-        switch ($sort) {
-            case 'price_low':
-                $query->orderBy('price', 'asc');
-                break;
-            case 'price_high':
-                $query->orderBy('price', 'desc');
-                break;
-            case 'name':
-                $query->orderBy('name', 'asc');
-                break;
-            case 'newest':
-            default:
-                $query->orderBy('created_at', 'desc');
-                break;
-        }
-
-        $products = $query->paginate(12);
-        $categories = Category::all();
-
-        return view('shop.index', compact('products', 'categories'));
+    // Category filter
+    if ($request->has('category') && $request->category) {
+        $query->where('category_id', $request->category);
     }
+
+    // Search
+    if ($request->has('search') && $request->search) {
+        $query->where('name', 'like', '%' . $request->search . '%');
+    }
+
+    // Sort
+    $sort = $request->get('sort', 'newest');
+    switch ($sort) {
+        case 'price_low':
+            $query->orderBy('price', 'asc');
+            break;
+        case 'price_high':
+            $query->orderBy('price', 'desc');
+            break;
+        case 'name':
+            $query->orderBy('name', 'asc');
+            break;
+        case 'newest':
+        default:
+            $query->orderBy('created_at', 'desc');
+            break;
+    }
+
+    $products = $query->paginate(12);
+    $categories = \Illuminate\Support\Facades\Cache::remember(
+        'categories.all',
+        now()->addHour(),
+        fn () => Category::all()
+    );
+
+    return view('shop.index', compact('products', 'categories'));
+}
 
     public function show($slug)
     {

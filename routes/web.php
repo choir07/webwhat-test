@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 // ============================================
 // SHOP ROUTES 
 // ============================================
-Route::domain('https://webwhat-shop-1gd8.onrender.com')->group(function () {
+Route::domain('webwhat-shop-1gd8.onrender.com')->group(function () {
     Route::get('/', [FrontendProductController::class, 'index'])->name('shop.index');
     Route::get('/shop/{slug}', [FrontendProductController::class, 'show'])->name('shop.show');
 
@@ -34,7 +34,7 @@ Route::domain('https://webwhat-shop-1gd8.onrender.com')->group(function () {
 // ============================================
 // BLOG ROUTES 
 // ============================================
-Route::domain('innovative-miracle-production-2200.up.railway.app')->group(function () {
+Route::domain('webwhat-blog.onrender.com')->group(function () {
     Route::get('/', [BlogController::class, 'home'])->name('blog.index');
     Route::get('/blog', [BlogController::class, 'index'])->name('blog.all');
     Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');

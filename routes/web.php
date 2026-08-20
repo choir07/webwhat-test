@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 // ============================================
 // SHOP ROUTES 
 // ============================================
-Route::domain('pleasing-sparkle-production-7b89.up.railway.app')->group(function () {
+Route::domain('https://webwhat-shop-1gd8.onrender.com')->group(function () {
     Route::get('/', [FrontendProductController::class, 'index'])->name('shop.index');
     Route::get('/shop/{slug}', [FrontendProductController::class, 'show'])->name('shop.show');
 
